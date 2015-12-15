@@ -1,2 +1,4 @@
 # Pytiaa
-Algorithme animations in Python, 
+Classification and analogical algorithm animations in Python
+
+ 
