@@ -17,7 +17,7 @@ def aleat(color,n):
     for c in color:
         x, y = rand(2, n)
         plt.scatter(x, y, c=color,label=c)
-        for i in range(100):
+        for i in range(n):
             tab.append([x[i],y[i],c])
     return tab
 
