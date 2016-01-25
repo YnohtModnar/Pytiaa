@@ -11,17 +11,26 @@
 
         Author : Anthony LOHOU "RandomTony"
             anthonylohou.com
+
+        Run : 
+        Parent directory of Pytiaa => python Pytiaa.Algorithms.Kmeans
+        Else relative imports won't work
 """
 
+import sys
 import math
+import matplotlib.pyplot as plt
 
-def kmeans(point,k, tableau):
+from Pytiaa.utils import norm, dist
+from Pytiaa.DataGen.randomGen import *
+
+def kmeans(point: list, tableau: list, k: int = 10):
     tabTemp = []
     classes = []
     count = 0
     for row in tableau:
         #Insert distance between new point and each other points, and insert classes
-        tabTemp.append([dist(point[0],row[0],point[1],row[1]),row[2]])
+        tabTemp.append([dist(point[0], row[0], point[1], row[1]), row[2]])
 
     #sort the list
     tabTemp.sort()
@@ -36,16 +45,33 @@ def kmeans(point,k, tableau):
 
     #Keep the most recurrent class
     for c  in classes:
-        if(count<classes.count(c)):
+        if(count < classes.count(c)):
             classe = c
             count = classes.count(c)
 
     return classe
 
 
-#dist is just a the distance between two points
-def dist(x1,x2,y1,y2):
-    return math.sqrt((x1-x2)**2+(y1-y2)**2)
+
+def main(argv):
+    # EXAMPLE
+    n = 100
+    nbClass = 4
+
+    points = random_generation(n, nbClass)
+    classe = kmeans([0.4,0.5], points, k=12)
+
+    plt.scatter(
+        [points[i][0] for i in range(n)],
+        [points[i][1] for i in range(n)],
+        c=[points[i][2] for i in range(n)]
+    )
+
+    print("CLASSE DU POINT : ", classe)
+    
+    plt.show()
 
 
-classe = kmeans([0.4,0.5],10,tableau))
+if(__name__ == "__main__"):
+    sys.exit(main(sys.argv))
+    
