@@ -10,10 +10,12 @@
 """
 
 import sys
+import math
 import matplotlib.pyplot as plt
 from numpy.random import rand
 from random import uniform, choice
-from Pytiaa.utils import color_generation
+
+from Pytiaa.utils import color_generation, norm
 
 #--   Anthony's function   --
 def aleat(color, n):
@@ -85,8 +87,28 @@ def percent_generation(percentages: list, n: int, offset: float = .2) ->list:
 
 
 def main(argv):
-    #How to use
-    tableau = aleat(['red','blue','green'],100)
+    # TEST RANDOM GEN
+    # n = 200
+    # nbClass = 7
+    # pts = random_generation(n, nbClass)
+    # plt.scatter(
+    #     [pts[i][0] for i in range(n)],
+    #     [pts[i][1] for i in range(n)],
+    #     c=[pts[i][2] for i in range(n)]
+    # )
+    # END
+    
+    # TEST GROUP GEN
+    nbGroupes = 7
+    nbPoints = 13
+    pts = group_generation(nbGroupes, nbPoints)
+    plt.scatter(
+        [pts[i][0] for i in range(nbGroupes * nbPoints)],
+        [pts[i][1] for i in range(nbGroupes * nbPoints)],
+        c=[pts[i][2] for i in range(nbGroupes * nbPoints)]
+    )
+    # END
+
     plt.show()
 
 if(__name__ == "__main__"):
