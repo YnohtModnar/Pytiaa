@@ -18,18 +18,18 @@ from random import uniform, choice
 from Pytiaa.utils import color_generation, norm
 
 #--   Anthony's function   --
-def aleat(color, n):
-    """
-    Generate points with random coordinates and a random class
-    Points are between 0 and 1
-    """
-    tab = []
-    for c in color:
-        x, y = rand(2, n)
-        plt.scatter(x, y, c=color, label=c)
-        for i in range(n):
-            tab.append([x[i],y[i],c])
-    return tab
+# def aleat(color, n):
+#     """
+#     Generate points with random coordinates and a random class
+#     Points are between 0 and 1
+#     """
+#     tab = []
+#     for c in color:
+#         x, y = rand(2, n)
+#         plt.scatter(x, y, c=color, label=c)
+#         for i in range(n):
+#             tab.append([x[i],y[i],c])
+#     return tab
 #TODO
 #Try to add dots on the graph outside the function aleat(color)
 
