@@ -24,6 +24,9 @@ from Pytiaa.utils import norm, dist
 from Pytiaa.DataGen.randomGen import *
 
 def kmeans(point: list, tableau: list, k: int = 10):
+    if(k > len(tableau) or k <= 0):
+        k = len(tableau)
+
     tabTemp = []
     classes = []
     count = 0

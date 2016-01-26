@@ -12,7 +12,7 @@
         Author : Anthony LOHOU "RandomTony"
             anthonylohou.com
 
-        Parent directory of Pytiaa => run 'python -m Pytiaa.Algorithms.Kmeans'
+        Parent directory of Pytiaa => run 'python -m Pytiaa.Algorithms.Fadana'
         Else relative imports won't work1
 """
 
@@ -64,7 +64,7 @@ def fadana(point: list, tableau: list, k: int = 10):
 
 def fadana_test(new: tuple, points: list, k: int=10):
     # Checks k value
-    if(k > len(points)):
+    if(k > len(points) or k <= 0):
         k = len(points)
 
     triplets = []
