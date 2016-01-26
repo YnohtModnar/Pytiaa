@@ -64,7 +64,7 @@ def fadana(point: list, tableau: list, k: int = 10):
 
 def fadana_test(new: tuple, points: list, k: int=10):
     # Checks k value
-    if(k > len(points) or k <= 0):
+    if(k > len(points)):
         k = len(points)
 
     triplets = []
@@ -81,21 +81,20 @@ def fadana_test(new: tuple, points: list, k: int=10):
 
     # Compute analogical difference
     analogicalDiff = []
-    for i in range(len(triplets)):
-        current = triplets[i]
+    for t in triplets:
         # DEBUG : print(points[current[1]])
         # Analogical difference A and B
-        adx1 = points[current[1]][0] - points[current[2]][0]    # A - B
-        ady1 = points[current[1]][1] - points[current[2]][1]    
+        adx1 = points[t[1]][0] - points[t[2]][0]                # A - B
+        ady1 = points[t[1]][1] - points[t[2]][1]
         # Analogical difference C and D
-        adx2 = points[current[3]][0] - new[0]                   # C - D
-        ady2 = points[current[3]][1] - new[1]
+        adx2 = points[t[3]][0] - new[0]                         # C - D
+        ady2 = points[t[3]][1] - new[1]
         # Real analogical difference
         adx = 1 - abs(adx1 - adx2)                              # AD = 1 - | (A - B) - (C - D) |
         ady = 1 - abs(ady1 - ady2)
         ad = adx + ady
 
-        analogicalDiff.append([current[0], ad])
+        analogicalDiff.append([t[0], ad])
 
     # DEBUG : print(analogicalDiff)
     # Sorting by AD
@@ -112,6 +111,7 @@ def fadana_test(new: tuple, points: list, k: int=10):
 def main(argv):
     points, loss = percent_generation([.15, .3, .4, .05, .1], 90)
     classe = fadana([0.4, 0.5], points, k=10)
+    # classe = fadana_test([0.4, 0.5], points, k=10)
     print("Classe :", classe)
 
 if(__name__ == "__main__"):

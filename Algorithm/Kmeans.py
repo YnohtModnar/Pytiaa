@@ -46,7 +46,7 @@ def kmeans(point: list, tableau: list, k: int = 10):
     classes.sort()
 
     #Keep the most recurrent class
-    for c  in classes:
+    for c in classes:
         if(count < classes.count(c)):
             classe = c
             count = classes.count(c)
@@ -64,9 +64,9 @@ def main(argv):
     classe = kmeans([0.4,0.5], points, k=12)
 
     plt.scatter(
-        [points[i][0] for i in range(n)],
-        [points[i][1] for i in range(n)],
-        c=[points[i][2] for i in range(n)]
+        [p[0] for p in points],
+        [p[1] for p in points],
+        c=[p[2] for p in points]
     )
 
     print("CLASSE DU POINT : ", classe)

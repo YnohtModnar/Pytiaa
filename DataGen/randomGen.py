@@ -47,7 +47,7 @@ def random_generation(n: int, nbClass: int) ->list:
     ] for i in range(n)]
 
 
-def group_generation(nbGoupes: int, n: int, offset: float = .2) ->list:
+def group_generation(nbGroupes: int, n: int, offset: float = .2) ->list:
     """
     Generates points in distincts groups
     Same number of points per group
@@ -60,11 +60,11 @@ def group_generation(nbGoupes: int, n: int, offset: float = .2) ->list:
         # Generate groups's centers
         centroidsX.append(math.cos(angle))
         centroidsY.append(math.sin(angle))
-        angle += (2 * math.pi) / nbGoupes
+        angle += (2 * math.pi) / nbGroupes
 
     points = []
-    cl = color_generation(nbGoupes)
-    for i in range(nbGoupes):
+    cl = color_generation(nbGroupes)
+    for i in range(nbGroupes):
         # Generate points for each group
         points.extend([
             norm(uniform(centroidsX[i] - offset, centroidsX[i] + offset), -1 - offset, 1 + offset),
@@ -119,8 +119,6 @@ def percent_generation(percentages: list, n: int, offset: float = .2) ->list:
     return points, lostpoints
 
 
-
-
 def main(argv):
     fig = [plt.figure() for i in range(3)]
     ax = [fig[i].add_axes([0, 0, 1, 1], frameon=False) for i in range(3)]
@@ -133,9 +131,9 @@ def main(argv):
     nbClass = 7
     pts = random_generation(n, nbClass)
     ax[0].scatter(
-        [pts[i][0] for i in range(n)],
-        [pts[i][1] for i in range(n)],
-        c=[pts[i][2] for i in range(n)]
+        [p[0] for p in pts],
+        [p[1] for p in pts],
+        c=[p[2] for p in pts]
     )
     # END
     
@@ -144,9 +142,9 @@ def main(argv):
     nbPoints = 13
     pts = group_generation(nbGroupes, nbPoints)
     ax[1].scatter(
-        [pts[i][0] for i in range(nbGroupes * nbPoints)],
-        [pts[i][1] for i in range(nbGroupes * nbPoints)],
-        c=[pts[i][2] for i in range(nbGroupes * nbPoints)]
+        [p[0] for p in pts],
+        [p[1] for p in pts],
+        c=[p[2] for p in pts]
     )
     # END
 
@@ -155,9 +153,9 @@ def main(argv):
     percents = [.15, .3, .4, .05, .1]
     pts, loss = percent_generation(percents, nbPoints)
     ax[2].scatter(
-        [pts[i][0] for i in range(nbPoints - loss)],
-        [pts[i][1] for i in range(nbPoints - loss)],
-        c=[pts[i][2] for i in range(nbPoints - loss)]
+        [p[0] for p in pts],
+        [p[1] for p in pts],
+        c=[p[2] for p in pts]
     )
     # END
 
