@@ -62,7 +62,7 @@ def fadana(point: list, tableau: list, k: int = 10):
 
 
 
-def fadana_test(x: float, y: float, points: list, k=10):
+def fadana_test(new: tuple, points: list, k: int=10):
     # Checks k value
     if(k > len(points)):
         k = len(points)
@@ -85,13 +85,13 @@ def fadana_test(x: float, y: float, points: list, k=10):
         current = triplets[i]
         # DEBUG : print(points[current[1]])
         # Analogical difference A and B
-        adx1 = points[current[1]][0] - points[current[2]][0]
-        ady1 = points[current[1]][1] - points[current[2]][1]
+        adx1 = points[current[1]][0] - points[current[2]][0]    # A - B
+        ady1 = points[current[1]][1] - points[current[2]][1]    
         # Analogical difference C and D
-        adx2 = points[current[3]][0] - x
-        ady2 = points[current[3]][1] - y
+        adx2 = points[current[3]][0] - new[0]                   # C - D
+        ady2 = points[current[3]][1] - new[1]
         # Real analogical difference
-        adx = 1 - abs(adx1 - adx2) 
+        adx = 1 - abs(adx1 - adx2)                              # AD = 1 - | (A - B) - (C - D) |
         ady = 1 - abs(ady1 - ady2)
         ad = adx + ady
 
