@@ -122,33 +122,39 @@ def percent_generation(percentages: list, n: int, offset: float = .2) ->list:
 
 
 def main(argv):
+    fig = [plt.figure() for i in range(3)]
+    ax = [fig[i].add_axes([0, 0, 1, 1], frameon=False) for i in range(3)]
+    for i in range(3):
+        ax[i].set_ylim(0, 1), ax[i].set_xticks([])
+        ax[i].set_ylim(0, 1), ax[i].set_yticks([])
+
     # TEST RANDOM GEN
-    # n = 200
-    # nbClass = 7
-    # pts = random_generation(n, nbClass)
-    # plt.scatter(
-    #     [pts[i][0] for i in range(n)],
-    #     [pts[i][1] for i in range(n)],
-    #     c=[pts[i][2] for i in range(n)]
-    # )
+    n = 200
+    nbClass = 7
+    pts = random_generation(n, nbClass)
+    ax[0].scatter(
+        [pts[i][0] for i in range(n)],
+        [pts[i][1] for i in range(n)],
+        c=[pts[i][2] for i in range(n)]
+    )
     # END
     
     # TEST GROUP GEN
-    # nbGroupes = 7
-    # nbPoints = 13
-    # pts = group_generation(nbGroupes, nbPoints)
-    # plt.scatter(
-    #     [pts[i][0] for i in range(nbGroupes * nbPoints)],
-    #     [pts[i][1] for i in range(nbGroupes * nbPoints)],
-    #     c=[pts[i][2] for i in range(nbGroupes * nbPoints)]
-    # )
+    nbGroupes = 7
+    nbPoints = 13
+    pts = group_generation(nbGroupes, nbPoints)
+    ax[1].scatter(
+        [pts[i][0] for i in range(nbGroupes * nbPoints)],
+        [pts[i][1] for i in range(nbGroupes * nbPoints)],
+        c=[pts[i][2] for i in range(nbGroupes * nbPoints)]
+    )
     # END
 
     # TEST PERCENT GEN
     nbPoints = 90
     percents = [.15, .3, .4, .05, .1]
     pts, loss = percent_generation(percents, nbPoints)
-    plt.scatter(
+    ax[2].scatter(
         [pts[i][0] for i in range(nbPoints - loss)],
         [pts[i][1] for i in range(nbPoints - loss)],
         c=[pts[i][2] for i in range(nbPoints - loss)]
