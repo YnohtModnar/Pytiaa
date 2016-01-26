@@ -56,14 +56,14 @@ def main(argv):
 
 	# DISPLAY
 	# all pre-existing points
-	plt.scatter([points[i][0] for i in range(len(points))],
-				[points[i][1] for i in range(len(points))],
-				c=[points[i][2] for i in range(len(points))])
+	plt.scatter([p[0] for p in points],
+				[p[1] for p in points],
+				c=[p[2] for p in points])
 	# new point to classify
 	plt.scatter(new[0], new[1], c="#000000")
 	# nearest neighbors lines
-	for i in range(len(distances)):
-		plt.plot([new[0], points[distances[i][0]][0]], [new[1], points[distances[i][0]][1]], c="#000000")
+	for d in distances:
+		plt.plot([new[0], points[d[0]][0]], [new[1], points[d[0]][1]], c="#000000")
 	plt.show()
 
 if(__name__ == "__main__"):
