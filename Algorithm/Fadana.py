@@ -11,11 +11,19 @@
 
         Author : Anthony LOHOU "RandomTony"
             anthonylohou.com
+
+        Parent directory of Pytiaa => run 'python -m Pytiaa.Algorithms.Kmeans'
+        Else relative imports won't work1
 """
 
+import sys
 import math
 
-def fadana(point, k, tableau):
+from Pytiaa.DataGen.randomGen import *
+from Pytiaa.utils import dist
+
+
+def fadana(point: list, tableau: list, k: int = 10):
     classe = []
     classes = []
     triplets =[]
@@ -53,8 +61,60 @@ def fadana(point, k, tableau):
     return classe
 
 
-#dist is just a the distance between two points
-def dist(x1,x2,y1,y2):
-    return math.sqrt((x1-x2)**2+(y1-y2)**2)
 
-classe = fadana([0.4,0.5],10,tableau))
+def fadana_test(x: float, y: float, points: list, k=10):
+    # Checks k value
+    if(k > len(points)):
+        k = len(points)
+
+    triplets = []
+    size = len(points)
+
+    # Creates all existing triplets
+    index = 0
+    for i in range(size):
+        for j in range(i, size):
+            for k in range(j, size):
+                triplets.append([index, i, j, k])
+                index += 1
+    # DEBUG : print(triplets)
+
+    # Compute analogical difference
+    analogicalDiff = []
+    for i in range(len(triplets)):
+        current = triplets[i]
+        # DEBUG : print(points[current[1]])
+        # Analogical difference A and B
+        adx1 = points[current[1]][0] - points[current[2]][0]
+        ady1 = points[current[1]][1] - points[current[2]][1]
+        # Analogical difference C and D
+        adx2 = points[current[3]][0] - x
+        ady2 = points[current[3]][1] - y
+        # Real analogical difference
+        adx = 1 - abs(adx1 - adx2) 
+        ady = 1 - abs(ady1 - ady2)
+        ad = adx + ady
+
+        analogicalDiff.append([current[0], ad])
+
+    # DEBUG : print(analogicalDiff)
+    # Sorting by AD
+    analogicalDiff.sort(key=lambda l: l[1])
+    analogicalDiff = analogicalDiff[:k]
+    # DEBUG : print(analogicalDiff)
+
+    # Class calculation
+    cl = ""
+
+    return cl
+
+
+def main(argv):
+    points, loss = percent_generation([.15, .3, .4, .05, .1], 90)
+    classe = fadana([0.4, 0.5], points, k=10)
+    print("Classe :", classe)
+
+if(__name__ == "__main__"):
+    sys.exit(main(sys.argv))
+    
+

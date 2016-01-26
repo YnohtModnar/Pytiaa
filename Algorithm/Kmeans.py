@@ -12,8 +12,7 @@
         Author : Anthony LOHOU "RandomTony"
             anthonylohou.com
 
-        Run : 
-        Parent directory of Pytiaa => python Pytiaa.Algorithms.Kmeans
+        Parent directory of Pytiaa => run 'python -m Pytiaa.Algorithms.Kmeans'
         Else relative imports won't work
 """
 
