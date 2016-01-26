@@ -81,7 +81,42 @@ def percent_generation(percentages: list, n: int, offset: float = .2) ->list:
     Variable amount of points per group determined by the percentages parameter
     Points's coordinates between 0 and 1
     """
-    pass
+    # Check if the percentages are correct
+    if(sum(percentages) > 1 or sum(percentages) <= 0):
+        raise ValueError("The given percentages aren't correct, sum > 1 or sum <= 0")
+    nbGroupes = len(percentages)
+    cl = color_generation(nbGroupes)
+
+    # DEBUG : print(percentages)
+    # Conversion : from percents to number of points
+    for i in range(nbGroupes):
+        percentages[i] = int(n * percentages[i])
+    # Number of points lost because of the divisions
+    lostpoints = n - sum(percentages)
+    print("%s points haven't been placed" % str(lostpoints))
+    # DEBUG : print(percentages)
+
+    # Groups positions
+    angle = 0
+    centroidsX = []
+    centroidsY = []
+    while(angle < 2*math.pi):
+        # Generate groups's centers
+        centroidsX.append(math.cos(angle))
+        centroidsY.append(math.sin(angle))
+        angle += (2 * math.pi) / nbGroupes
+
+    # Points generation
+    points = []
+    for i in range(nbGroupes):
+        # Generate the amount of points specified by the percentages list
+        points.extend([
+            norm(uniform(centroidsX[i] - offset, centroidsX[i] + offset), -1 - offset, 1 + offset),
+            norm(uniform(centroidsY[i] - offset, centroidsY[i] + offset), -1 - offset, 1 + offset),
+            cl[i]
+        ] for j in range(percentages[i]))
+
+    return points, lostpoints
 
 
 
@@ -99,13 +134,24 @@ def main(argv):
     # END
     
     # TEST GROUP GEN
-    nbGroupes = 7
-    nbPoints = 13
-    pts = group_generation(nbGroupes, nbPoints)
+    # nbGroupes = 7
+    # nbPoints = 13
+    # pts = group_generation(nbGroupes, nbPoints)
+    # plt.scatter(
+    #     [pts[i][0] for i in range(nbGroupes * nbPoints)],
+    #     [pts[i][1] for i in range(nbGroupes * nbPoints)],
+    #     c=[pts[i][2] for i in range(nbGroupes * nbPoints)]
+    # )
+    # END
+
+    # TEST PERCENT GEN
+    nbPoints = 90
+    percents = [.15, .3, .4, .05, .1]
+    pts, loss = percent_generation(percents, nbPoints)
     plt.scatter(
-        [pts[i][0] for i in range(nbGroupes * nbPoints)],
-        [pts[i][1] for i in range(nbGroupes * nbPoints)],
-        c=[pts[i][2] for i in range(nbGroupes * nbPoints)]
+        [pts[i][0] for i in range(nbPoints - loss)],
+        [pts[i][1] for i in range(nbPoints - loss)],
+        c=[pts[i][2] for i in range(nbPoints - loss)]
     )
     # END
 

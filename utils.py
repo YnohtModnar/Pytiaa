@@ -19,7 +19,6 @@ def color_generation(n: int) ->list:
 	"""
 	hexa = [x for x in range(48, 57 + 1)]
 	hexa.extend([x for x in range(65, 70 + 1)])
-	print(hexa)
 	colors = []
 
 	for i in range(n):
