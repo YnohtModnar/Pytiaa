@@ -23,35 +23,61 @@ import matplotlib.pyplot as plt
 from Pytiaa.utils import norm, dist
 from Pytiaa.DataGen.randomGen import *
 
-def kmeans(point: list, tableau: list, k: int = 10):
-    if(k > len(tableau) or k <= 0):
-        k = len(tableau)
+# def kmeans(point: list, tableau: list, k: int = 10):
+#     if(k > len(tableau) or k <= 0):
+#         k = len(tableau)
 
-    tabTemp = []
-    classes = []
-    count = 0
-    for row in tableau:
-        #Insert distance between new point and each other points, and insert classes
-        tabTemp.append([dist(point[0], row[0], point[1], row[1]), row[2]])
+#     tabTemp = []
+#     classes = []
+#     count = 0
+#     for row in tableau:
+#         #Insert distance between new point and each other points, and insert classes
+#         tabTemp.append([dist(point[0], row[0], point[1], row[1]), row[2]])
 
-    #sort the list
-    tabTemp.sort()
-    #Keep K first elements
-    tabTemp = tabTemp[0:k]
+#     #sort the list
+#     tabTemp.sort()
+#     #Keep K first elements
+#     tabTemp = tabTemp[0:k]
 
-    for t in tabTemp:
-        #keep all classes in a list
-        classes.append(t[1])
+#     for t in tabTemp:
+#         #keep all classes in a list
+#         classes.append(t[1])
 
-    classes.sort()
+#     classes.sort()
 
-    #Keep the most recurrent class
-    for c in classes:
-        if(count < classes.count(c)):
-            classe = c
-            count = classes.count(c)
+#     #Keep the most recurrent class
+#     for c in classes:
+#         if(count < classes.count(c)):
+#             classe = c
+#             count = classes.count(c)
 
-    return classe
+#     return classe
+
+def kmeans(new: tuple, points: list, k: int=10) ->tuple:
+    """
+    Classify a point with the K-means algorithm
+    new => New point to classify tuple(x, y)
+    points => The training set [[x, y, class], ...]
+    """
+    # Check the k value
+    if(k > len(points) or k <= 0):
+        k = len(points)
+
+    # Compute distances between all the points and the new one
+    dists = []
+    for i, pt in enumerate(points):
+        dx = new[0] - pt[0]
+        dy = new[1] - pt[1]
+        dists.append([i, math.sqrt(dx**2 + dy**2)])
+
+    # Sort the distances
+    dists.sort(key=lambda d: d[1])
+    dists = dists[:k]
+
+    # Compute the most recurrent class
+    cl = [points[d[0]][2] for d in dists]
+
+    return dists, max(cl, key=lambda c: cl.count(c))
 
 
 
