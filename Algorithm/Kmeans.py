@@ -19,45 +19,17 @@
 import sys
 import math
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 from Pytiaa.utils import norm, dist
 from Pytiaa.DataGen.randomGen import *
 
-# def kmeans(point: list, tableau: list, k: int = 10):
-#     if(k > len(tableau) or k <= 0):
-#         k = len(tableau)
-
-#     tabTemp = []
-#     classes = []
-#     count = 0
-#     for row in tableau:
-#         #Insert distance between new point and each other points, and insert classes
-#         tabTemp.append([dist(point[0], row[0], point[1], row[1]), row[2]])
-
-#     #sort the list
-#     tabTemp.sort()
-#     #Keep K first elements
-#     tabTemp = tabTemp[0:k]
-
-#     for t in tabTemp:
-#         #keep all classes in a list
-#         classes.append(t[1])
-
-#     classes.sort()
-
-#     #Keep the most recurrent class
-#     for c in classes:
-#         if(count < classes.count(c)):
-#             classe = c
-#             count = classes.count(c)
-
-#     return classe
 
 def kmeans(new: tuple, points: list, k: int=10) ->tuple:
     """
     Classify a point with the K-means algorithm
-    new => New point to classify tuple(x, y)
-    points => The training set [[x, y, class], ...]
+    new => New point to classify tuple(x, y, ...)
+    points => The training set [[x, y, ..., class], ...]
     """
     # Check the k value
     if(k > len(points) or k <= 0):
@@ -66,9 +38,13 @@ def kmeans(new: tuple, points: list, k: int=10) ->tuple:
     # Compute distances between all the points and the new one
     dists = []
     for i, pt in enumerate(points):
-        dx = new[0] - pt[0]
-        dy = new[1] - pt[1]
-        dists.append([i, math.sqrt(dx**2 + dy**2)])
+        s = 0
+        for j, n in enumerate(pt[:-1]):
+            d = new[j] - n
+            s += d**2
+        # dx = new[0] - pt[0]
+        # dy = new[1] - pt[1]
+        dists.append([i, math.sqrt(s)])
 
     # Sort the distances
     dists.sort(key=lambda d: d[1])
@@ -80,14 +56,19 @@ def kmeans(new: tuple, points: list, k: int=10) ->tuple:
     return dists, max(cl, key=lambda c: cl.count(c))
 
 
-
 def main(argv):
     # EXAMPLE
-    n = 100
-    nbClass = 4
 
-    points = random_generation(n, nbClass)
-    classe = kmeans([0.4,0.5], points, k=12)
+    ###
+    #   2D
+    ###
+    n = 13
+    nbClass = 5
+    new = (.5, .5, .5)
+
+    points = group_generation(nbClass, n)
+    # points = random_generation(n, nbClass)
+    dists, classe = kmeans(new, points, k=12)
 
     plt.scatter(
         [p[0] for p in points],
@@ -95,8 +76,31 @@ def main(argv):
         c=[p[2] for p in points]
     )
 
+    for d in dists:
+        plt.plot([.5, points[d[0]][0]], [.5, points[d[0]][1]], c="#000000")
     print("CLASSE DU POINT : ", classe)
     
+
+    ###
+    #   3D
+    ###
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+    points = random_generation(25, 4, dim=3)
+
+    dists, cl = kmeans(new, points, k=25)
+
+    plt.scatter(
+        [point[0] for point in points],
+        [point[1] for point in points],
+        zs=[point[2] for point in points],
+        c=[point[3] for point in points]
+    )
+    plt.scatter(new[0], new[1], new[2], c=cl)
+
+    for d in dists:
+        plt.plot([.5, points[d[0]][0]], [.5, points[d[0]][1]], zs=[.5, points[d[0]][2]], c="#000000")
+
     plt.show()
 
 
