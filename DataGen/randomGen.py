@@ -34,7 +34,7 @@ from Pytiaa.utils import color_generation, norm
 #Try to add dots on the graph outside the function aleat(color)
 
 
-def random_generation(n: int, nbClass: int) ->list:
+def random_generation(n: int, nbClass: int) :
     """
     Generates points with random coordinates and a random class
     Coordinates between 0 and 1
@@ -116,7 +116,7 @@ def percent_generation(percentages: list, n: int, offset: float = .2) ->list:
             cl[i]
         ] for j in range(percentages[i]))
 
-    return points, lostpoints
+    return points
 
 
 def main(argv):
@@ -136,7 +136,7 @@ def main(argv):
         c=[p[2] for p in pts]
     )
     # END
-    
+
     # TEST GROUP GEN
     nbGroupes = 7
     nbPoints = 13
@@ -163,4 +163,3 @@ def main(argv):
 
 if(__name__ == "__main__"):
     sys.exit(main(sys.argv))
-

@@ -18,71 +18,50 @@
 
 import sys
 import math
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
 from Pytiaa.DataGen.randomGen import *
 from Pytiaa.utils import dist
 
-
-def fadana(point: list, tableau: list, k: int = 10):
-    classe = []
-    classes = []
-    triplets =[]
-    end = len(tableau)
-    distances = []
-    #Creating  triplets
-    index = 0;
-    for h in range(0,end):
-        for i in range(h,end):
-            for j in range(i,end):
-                #Keep points and index
-                triplets.append([tableau[h],tableau[i],tableau[j],index])
-                index = index +1;
-
-    #For each triplet, keep distance and index  if dist(a,b)-dist(c,d)<0.02
-    for t in triplets:
-        d = abs(dist(t[0][0],t[1][0],t[0][1],t[1][1])-dist(t[2][0],point[0],t[2][1],point[1]))
-        if d < 0.02:
-            distances.append([d,t[3]])
-    distances.sort()
-    distances = distances[0:k]
-    for d in distances:
-        index = d[1]
-        triplet = triplets[index]
-        for point in range(0,3):
-            classes.append(triplet[point][2])
-
-    #Keep most recurrent class
-    count =0
-    for c  in classes:
-        if(count<classes.count(c)):
-            classe = c
-            count = classes.count(c)
-
-    return classe
+fig = plt.figure()
 
 
-
-def fadana_test(new: tuple, points: list, k: int=10):
+def fadana(new: tuple, points: list, k: int=10):
     # Checks k value
     if(k > len(points)):
         k = len(points)
 
+    triplets = tripletCreat(points)
+    # Compute analogical difference
+    analogicalDiff = analogicalCalcul(new, points, triplets)
+    # Sorting by AD
+    analogicalDiff.sort(key=lambda l: l[1])
+    analogicalDiff = analogicalDiff[:k]
+
+    # Class calculation
+    classes = classCalcul(points, triplets, analogicalDiff)
+
+    return None if classes == [] else max(classes, key=lambda c: classes.count(c))
+
+
+# Creation of triplets composed of points
+def tripletCreat(points : list):
     triplets = []
     size = len(points)
-
     # Creates all existing triplets
     index = 0
     for i in range(size):
-        for j in range(i, size):
-            for k in range(j, size):
+        for j in range(i+1, size):
+            for k in range(j+1, size):
                 triplets.append([index, i, j, k])
                 index += 1
-    # DEBUG : print(triplets)
+    return triplets
 
-    # Compute analogical difference
+# Calcul Analogical difference between the new point and triplets
+def analogicalCalcul(new : tuple, points : list, triplets : list):
     analogicalDiff = []
     for t in triplets:
-        # DEBUG : print(points[current[1]])
         # Analogical difference A and B
         adx1 = points[t[1]][0] - points[t[2]][0]                # A - B
         ady1 = points[t[1]][1] - points[t[2]][1]
@@ -93,28 +72,36 @@ def fadana_test(new: tuple, points: list, k: int=10):
         adx = 1 - abs(adx1 - adx2)                              # AD = 1 - | (A - B) - (C - D) |
         ady = 1 - abs(ady1 - ady2)
         ad = adx + ady
-
+        # Add to the list
         analogicalDiff.append([t[0], ad])
+    return analogicalDiff
 
-    # DEBUG : print(analogicalDiff)
-    # Sorting by AD
-    analogicalDiff.sort(key=lambda l: l[1])
-    analogicalDiff = analogicalDiff[:k]
-    # DEBUG : print(analogicalDiff)
 
-    # Class calculation
-    cl = ""
+# Find the class of the new point for each triplet
+def classCalcul(points : list, triplets : list, analogicalDiff : list):
+    classes = []
+    for a in analogicalDiff:
+        t = triplets[a[0]][1:]
 
-    return cl
-
+        print(points[t[0]][2])
+        print(points[t[1]][2])
+        print(points[t[2]][2])
+        print("==============")
+        if(points[t[0]][2]==points[t[1]][2]):
+            classes.append(points[t[2]][2])
+            print("ici")
+        elif(points[t[0]][2]==points[t[2]][2] and points[t[2]][2]!=points[t[1]][2]):
+            classes.append(points[t[1]][2])
+            print("là")
+    return classes
 
 def main(argv):
-    points, loss = percent_generation([.15, .3, .4, .05, .1], 90)
-    classe = fadana([0.4, 0.5], points, k=10)
-    # classe = fadana_test([0.4, 0.5], points, k=10)
+    points= random_generation(50, 6)
+    points= group_generation(6, 10,.2)
+    points= percent_generation([0.05,0.25,0.15,0.25,0.1,0.2], 50,.2)
+    classe = fadana([0.5,0.4], points, k=10)
+
     print("Classe :", classe)
 
 if(__name__ == "__main__"):
     sys.exit(main(sys.argv))
-    
-
