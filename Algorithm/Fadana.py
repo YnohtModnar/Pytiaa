@@ -82,26 +82,20 @@ def classCalcul(points : list, triplets : list, analogicalDiff : list):
     classes = []
     for a in analogicalDiff:
         t = triplets[a[0]][1:]
-
-        print(points[t[0]][2])
-        print(points[t[1]][2])
-        print(points[t[2]][2])
-        print("==============")
         if(points[t[0]][2]==points[t[1]][2]):
             classes.append(points[t[2]][2])
-            print("ici")
         elif(points[t[0]][2]==points[t[2]][2] and points[t[2]][2]!=points[t[1]][2]):
             classes.append(points[t[1]][2])
-            print("là")
+
     return classes
 
 def main(argv):
     points= random_generation(50, 6)
-    points= group_generation(6, 10,.2)
-    points= percent_generation([0.05,0.25,0.15,0.25,0.1,0.2], 50,.2)
+    # points= group_generation(6, 10,.2)
+    # points= percent_generation([0.05,0.25,0.15,0.25,0.1,0.2], 50,.2)
     classe = fadana([0.5,0.4], points, k=10)
 
-    print("Classe :", classe)
+    print("Class :", classe)
 
 if(__name__ == "__main__"):
     sys.exit(main(sys.argv))
