@@ -33,18 +33,23 @@ from Pytiaa.utils import color_generation, norm
 #TODO
 #Try to add dots on the graph outside the function aleat(color)
 
-
-def random_generation(n: int, nbClass: int) :
+def random_generation(n: int, nbClass: int, dim: int = 2) ->list:
     """
     Generates points with random coordinates and a random class
     Coordinates between 0 and 1
     """
+    p = []
     cl = color_generation(nbClass)
-    return [[
-        uniform(0, 1),
-        uniform(0, 1),
-        choice(cl),
-    ] for i in range(n)]
+    for i in range(n):
+        p.append([uniform(0, 1) for j in range(dim)])
+        p[-1].append(choice(cl))
+    return p
+    # cl = color_generation(nbClass)
+    # return [[
+    #     uniform(0, 1),
+    #     uniform(0, 1),
+    #     choice(cl),
+    # ] for i in range(n)]
 
 
 def group_generation(nbGroupes: int, n: int, offset: float = .2) ->list:
