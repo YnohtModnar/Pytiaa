@@ -18,6 +18,7 @@
 
 import sys
 import math
+import pylab
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
@@ -25,70 +26,105 @@ from Pytiaa.utils import norm, dist
 from Pytiaa.DataGen.randomGen import *
 
 
-def kmeans(new: tuple, points: list, k: int=10) ->tuple:
+def kmeans(new: tuple, points: list, k: int=10):
     """
     Classify a point with the K-means algorithm
     new => New point to classify tuple(x, y, ...)
     points => The training set [[x, y, ..., class], ...]
     """
-    # Check the k value
     if(k > len(points) or k <= 0):
         k = len(points)
 
-    # Compute distances between all the points and the new one
+    neighbors = _compute_distances(new, points)
+    nneighbors = _nearest_neighbors(neighbors, k)
+    cl = _compute_class(points, nneighbors)
+
+    return neighbors, nneighbors, cl
+
+def _compute_distances(new, points):
     dists = []
     for i, pt in enumerate(points):
         s = 0
         for j, n in enumerate(pt[:-1]):
             d = new[j] - n
             s += d**2
-        # dx = new[0] - pt[0]
-        # dy = new[1] - pt[1]
         dists.append([i, math.sqrt(s)])
+    return dists
 
-    # Sort the distances
-    dists.sort(key=lambda d: d[1])
-    dists = dists[:k]
+def _nearest_neighbors(neighbors, k):
+    neighbors.sort(key=lambda d: d[1])
+    neighbors = neighbors[:k]
+    return neighbors
 
-    # Compute the most recurrent class
-    cl = [points[d[0]][2] for d in dists]
+def _compute_class(points, nneighbors):
+    cl = [points[d[0]][2] for d in nneighbors]
+    return max(cl, key=lambda c: cl.count(c))
 
-    return dists, max(cl, key=lambda c: cl.count(c))
+def draw(new, points, neighbors, nneighbors, cl, fig=plt):
+    fig.scatter(
+        [point[0] for point in points],
+        [point[1] for point in points],
+        c=[point[2] for point in points]
+    )
+    pylab.savefig('img1')
+
+    fig.scatter(new[0], new[1], c="#000000")
+    pylab.savefig('img2')
+
+    fig.scatter(.5, .5, c=cl)
+    pylab.savefig('img5')
+
+    fig.scatter(new[0], new[1], c="#000000")
+    for d in nneighbors:
+        fig.plot([.5, points[d[0]][0]], [.5, points[d[0]][1]], c="#878787", alpha=.3)
+    pylab.savefig('img4')
+
+    fig.scatter(new[0], new[1], c="#000000")
+    for d in neighbors:
+        fig.plot([.5, points[d[0]][0]], [.5, points[d[0]][1]], c="#878787", alpha=.3)
+    pylab.savefig('img3')
 
 
 def main(argv):
-    # EXAMPLE
+    points = group_generation(7, 13)
+    points = [
+        [.2, .25, 'red'],
+        [.9, .25, 'red'],
+        [.25, .75, 'red'],
 
-    ###
-    #   2D
-    ###
-    n = 13
-    nbClass = 5
-    new = (.5, .5, .5)
+        [.35, .5, 'blue'],
+        [.5, .25, 'blue'],
+        [.75, .8, 'blue'],
+    ]
+    points = random_generation(100, 4)
+    # print(points)
 
-    points = group_generation(nbClass, n)
-    # points = random_generation(n, nbClass)
-    dists, classe = kmeans(new, points, k=12)
+    new = (.5, .5)
+    # points, loss = percent_generation([.5, .2, .06, .08, .1], 100)
+    neighbors, nneighbors, cl = kmeans(new, points, k=5)
+    draw(new, points, neighbors, nneighbors, cl)
 
-    plt.scatter(
-        [p[0] for p in points],
-        [p[1] for p in points],
-        c=[p[2] for p in points]
-    )
 
-    for d in dists:
-        plt.plot([.5, points[d[0]][0]], [.5, points[d[0]][1]], c="#000000")
-    print("CLASSE DU POINT : ", classe)
-    
-
-    ###
-    #   3D
-    ###
+    # 3D
     fig = plt.figure()
     ax = fig.gca(projection='3d')
-    points = random_generation(25, 4, dim=3)
 
-    dists, cl = kmeans(new, points, k=25)
+    points = [
+        [.2, .25,  .4,  'red'],
+        [.9, .25,  .8,  'red'],
+        [.25, .75, .35, 'red'],
+
+        [.35, .5, .25, 'blue'],
+        [.5, .25, .05, 'blue'],
+        [.75, .8, .9,  'blue'],
+    ]
+    points = random_generation(100, 4, dim=3)
+
+    new = (.5, .5, .5)
+    # points, loss = percent_generation([.5, .2, .06, .08, .1], 100)
+    neighbors, nneighbors, cl = kmeans(new, points, k=25)
+    print(cl)
+
 
     plt.scatter(
         [point[0] for point in points],
@@ -98,12 +134,11 @@ def main(argv):
     )
     plt.scatter(new[0], new[1], new[2], c=cl)
 
-    for d in dists:
-        plt.plot([.5, points[d[0]][0]], [.5, points[d[0]][1]], zs=[.5, points[d[0]][2]], c="#000000")
+    for d in nneighbors:
+        plt.plot([.5, points[d[0]][0]], [.5, points[d[0]][1]], zs=[.5, points[d[0]][2]], c="#878787")
 
     plt.show()
 
 
 if(__name__ == "__main__"):
     sys.exit(main(sys.argv))
-    
