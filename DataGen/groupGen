@@ -1,0 +1,97 @@
+#!/usr/bin/python3.4
+
+"""
+        Group Generator - randomGen.py
+            this function generate N group of M points for each color (represent some classes)
+        Author : Nathan LEMERRER ; Dylan THOMAS
+"""
+
+import matplotlib.pyplot as plt
+import math
+from numpy.random import uniform, choice
+
+color=['black','dimgray']
+
+#Create a tab of n color
+def color_generation(n: int) ->list:
+    """
+    Return an array of n colors
+    Format : hexa as a string
+    """
+    hexa = [x for x in range(48, 57 + 1)]
+    hexa.extend([x for x in range(65, 70 + 1)])
+    colors = []
+
+    for i in range(n):
+        colors.append("#" + "".join([chr(choice(hexa)) for i in range(6)]))
+
+    return colors
+
+#Normalisation of the datas
+def normalisation(tabXY):
+    maxiX=tabXY[0][0]
+    miniX=tabXY[0][0]
+    
+    maxiY=tabXY[0][1]
+    miniY=tabXY[0][1]
+    
+    taille=len(tabXY)-1
+    
+    for i in range(0,taille):
+        if tabXY[i][0] > maxiX :
+            maxiX=tabXY[i][0]
+
+        if tabXY[i][1] > maxiY :
+            maxiY=tabXY[i][1]
+
+        if tabXY[i][0] < miniX :
+            miniX=tabXY[i][0]
+
+        if tabXY[i][1] < miniY :
+            miniY=tabXY[i][1]
+
+
+    for j in range(0,taille):
+        tabXY[j][0]=abs(tabXY[j][0]-miniX/(maxiX-miniX))
+        tabXY[j][1]=abs(tabXY[j][1]-miniY/(maxiY-miniY))
+        
+        if tabXY[j][0]>1:
+            tabXY[j][0]=1
+
+        if tabXY[j][1]>1:
+            tabXY[j][1]=1
+       
+
+    return tabXY
+
+
+def groupe(nbPointsParGroups, nbGroups):
+    tab = []                                        # Tableau contenant tous les points générés
+    ecart = math.sin((math.pi*2)/nbGroups)          # Ecart entre les points d'origines
+    color=color_generation(nbGroups)                # La distance est calculée en fonction du nombre de groupes voulu
+    rayon= nbGroups/10                              # Le rayon est calculé en fonction du nombre de groupes voulu
+    for gr in range(nbGroups):
+        c = color[gr]
+        tabTemp=[] 
+        if gr != nbGroups:
+            # Def du point d'origine suivant en fonction de ecart et du rayon
+            xP = math.cos((gr*(math.pi*2))/nbGroups)*rayon -0.5
+            yP = math.sin((gr*(math.pi*2))/nbGroups)*rayon -0.5
+        tabTemp.append([xP,yP,c])
+        for i in range(1,nbPointsParGroups-1):
+            x = uniform(xP-(ecart/2),xP+(ecart/2))  # Calcule la coordonnée x de chaque point, confiné dans un interval dépendant du nombre de groupe
+            y = uniform(yP-(ecart/2),yP+(ecart/2))  # De même pour la coordonée y
+            tabTemp.append([x,y,c])
+        tab.append(normalisation(tabTemp))
+
+        for i in range(0,len(tab)-1):
+            for j in range(0,len(tab[i])-1):
+                plt.scatter(tab[i][j][0], tab[i][j][1], c=tab[i][j][2],label=c)  # Affiche le point sur le graphique
+		
+    return tab
+
+
+#How to use
+tableau = groupe(50,10)
+plt.show()
+
