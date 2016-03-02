@@ -41,7 +41,7 @@ def _compute_class(points, nneighbors):
     cl = [points[d[0]][2] for d in nneighbors]
     return max(cl, key=lambda c: cl.count(c))
 
-def draw(new, points, neighbors, nneighbors, cl):
+def kmeans_draw(new, points, neighbors, nneighbors, cl):
     FOLDER = os.path.join(settings.BASE_DIR, 'static/img/kmeans/')
     # Clear the figure
     plt.clf()

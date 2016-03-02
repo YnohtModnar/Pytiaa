@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 
 from integration.forms import *
 from integration.algorithms.kmeans import *
+from integration.algorithms.SimpleAnalogical import *
 from integration.algorithms.dataset import *
 from integration.algorithms.preview import *
 
@@ -11,39 +12,7 @@ from random import uniform
 
 # Create your views here.
 def index(request):
-	datasetform = DatasetForm()
-	# form = SimulationForm()
-	form = KmeansForm()
-	# form = RandomGenerationForm()
-	# form = UniformGroupGenerationForm()
-
-	has_preview = False
-	if(request.method == 'POST'):
-		testform = PercentGroupGenerationForm(request.POST)
-		if(testform.is_valid()):
-			# percents = testform.cleaned_data['percents']
-			request.session['dataset'], loss = percent_generation(testform.cleaned_data['percents'],
-																  testform.cleaned_data['nbPoints'])
-			preview(request.session['dataset'])
-			has_preview = True
-	else:
-		testform = PercentGroupGenerationForm()
-
-	return render(request, 'integration/index.html', locals())
-
-def run(request):
-	if(request.method == 'POST'):
-		form = KmeansForm(request.POST)
-		if(form.is_valid()):
-			k = form.cleaned_data['k']
-			new = (.5, .5)
-
-			# new = (uniform(0, 1), uniform(0, 1))
-			# points, loss = percent_generation([.5, .2, .06, .08, .1], 100)
-			neighbors, nneighbors, cl = kmeans(new, request.session['dataset'], k=k)
-			draw(new, request.session['dataset'], neighbors, nneighbors, cl)
-
-	return redirect('display', 1)
+	return redirect('dataset_selection')
 
 def display(request, id):
 	if(request.method == 'POST'):
@@ -142,9 +111,10 @@ def _execute(form, dataset, algo):
 		neighbors, nneighbors, cl = kmeans(form.cleaned_data['newPoint'],
 									   dataset,
 									   k=form.cleaned_data['k'])
-		draw(form.cleaned_data['newPoint'], dataset, neighbors, nneighbors, cl)
-	else:
-		pass
+		kmeans_draw(form.cleaned_data['newPoint'], dataset, neighbors, nneighbors, cl)
+	elif(algo == 'simpleAnalogical'):
+		classe, c, couples = SimpleAnalogical(form.cleaned_data['newPoint'], dataset)
+		sa_draw(form.cleaned_data['newPoint'], dataset, c, couples, classe)
 
 
 def execute_algo(request, id):
@@ -155,4 +125,4 @@ def execute_algo(request, id):
 		else:
 			id = int(id) - 1
 
-	return render(request, 'integration/algorithm_execution.html', {'id': id})
+	return render(request, 'integration/algorithm_execution.html', {'id': id, 'algo': request.session.get('algo')})

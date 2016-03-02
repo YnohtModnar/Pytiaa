@@ -1,9 +1,11 @@
+import os
 import sys
 import math
 import pylab
 import matplotlib.pyplot as plt
 
-from Pytiaa.utils import dist
+from django.conf import settings
+from integration.algorithms.utils import dist
 
 def SimpleAnalogical(new: tuple, points: tuple, k: int=1):
 	c, points, classe = _nearest_neighbors(new, points)
@@ -72,18 +74,19 @@ def _reset(ax, points, c):
 	)
 	ax.scatter(c[0][0], c[0][1], c=c[0][2])
 
-def draw(new, points, c, couples, classe, plt):
+def sa_draw(new, points, c, couples, classe, plt=plt):
+	FOLDER = os.path.join(settings.BASE_DIR, 'static/img/simpleAnalogical/')
 	fig, ax = plt.subplots()
 
 	_reset(ax, points, c)
-	pylab.savefig('img1')
+	pylab.savefig(FOLDER + 'img1')
 
 	ax.scatter(new[0], new[1], c="#000000")
-	pylab.savefig('img2')
+	pylab.savefig(FOLDER + 'img2')
 
 	ax.plot([new[0], c[0][0]], [new[1], c[0][1]], c="#878787", alpha=.3)
 	pylab.text(0.5, 1.05, 'Nearest neighbor, dist='+str(round(c[1], 4)), fontsize=12)
-	pylab.savefig('img3')
+	pylab.savefig(FOLDER + 'img3')
 
 	ax.clear()
 	_reset(ax, points, c)
@@ -91,7 +94,7 @@ def draw(new, points, c, couples, classe, plt):
 	pylab.text(0.5, 1.05, 'Couples creation', fontsize=12)
 	for i in range(len(couples)):
 		ax.plot([couples[i][0][0], couples[i][1][0]], [couples[i][0][1], couples[i][1][1]], c="#878787", alpha=.3)
-	pylab.savefig('img4')
+	pylab.savefig(FOLDER + 'img4')
 
 def main(argv):
 	points = [

@@ -5,7 +5,6 @@ from integration.views import *
 
 urlpatterns = [
 	url(r'^$', index, name='index'),
-	url(r'^run$', run),
 	url(r'^display/(?P<id>[1-9])$', display, name='display'),
 
 	url(r'^dataset_selection$', dataset_selection, name='dataset_selection'),

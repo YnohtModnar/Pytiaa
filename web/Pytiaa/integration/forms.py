@@ -3,32 +3,6 @@ from django import forms
 
 logger = logging.getLogger(__name__)
 
-class SimulationForm(forms.Form):
-	ALGORITHM = (
-		('kmeans', 'K-Nearset-Neighbors'),
-		('fadana', 'Fadana'),
-		('lazy', 'Lazy Analogical Classification'),
-		('simpleAnalogical', 'Simple Analogical'),
-	)
-	algorithm = forms.ChoiceField(choices=ALGORITHM, label="Algorithme")
-	algorithm.widget.attrs['placeholder'] = 'Algorithm'
-
-	DATASET = (
-		('random', u'Génération aléatoire'),
-		('uniformGroup', u'Génération par groupe - uniforme'),
-		('percentGroup', u'Génération par groupe - proportions'),
-	)
-	dataset = forms.ChoiceField(choices=DATASET, label=u"Méthode de génération des données")
-
-	GROUPES = ((i, i) for i in range(7))
-	nbGroup = forms.ChoiceField(choices=GROUPES, label="Nombre de classes")
-
-	POINTS_PER_GROUP = ((i, i) for i in range(5, 40, 5))
-	pointsPerGroup = forms.ChoiceField(choices=POINTS_PER_GROUP, label="Nombre de points par groupe")
-
-	k = forms.IntegerField(label="K nearest neighbors")
-	k.widget.attrs['placeholder'] = "K"
-
 ###
 #	ALGORITHM FORMS
 ###

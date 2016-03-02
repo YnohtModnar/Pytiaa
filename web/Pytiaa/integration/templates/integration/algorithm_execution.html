@@ -3,7 +3,7 @@
 
 {% block content %}
     <figure>
-        <img src="{% static 'img/kmeans/img' %}{{ id }}.png" />
+        <img src="{% static 'img/' %}{{ algo }}/img{{ id }}.png" />
         <p></p>
     </figure>
     <form action={% url 'exe_algo' id %} method="post">
