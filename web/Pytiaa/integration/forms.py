@@ -44,6 +44,17 @@ class SelectAlgorithmForm(forms.Form):
 
 class AlgorithmForm(forms.Form):
 	newPoint = forms.CharField(label="Point a classifier", initial=".5 .5")
+	newPoint.widget.attrs['placeholder'] = "Ex: 0.5 0.5"
+
+	def clean_newPoint(self):
+		coords = self.cleaned_data['newPoint'].split(' ')
+		try:
+			for idx, value in enumerate(coords):
+				coords[idx] = float(value)
+		except ValueError as e:
+			raise forms.ValidationError("The new point must be a float")
+
+		return coords
 
 class KmeansForm(AlgorithmForm):
 	k = forms.IntegerField(label="")

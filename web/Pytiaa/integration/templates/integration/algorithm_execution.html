@@ -1,15 +1,15 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-    <form action={% url 'exe_algo' %} method="post">
+    <figure>
+        <img src="{% static 'img/kmeans/img' %}{{ id }}.png" />
+        <p></p>
+    </figure>
+    <form action={% url 'exe_algo' id %} method="post">
         {% csrf_token %}
         <button type="submit" name="previous">Previous</button>
         <button type="submit" name="next">Next</button>
-    </form>
-
-    <form action={% url 'dataset_selection' %} method="post">
-        {% csrf_token %}
-        <button type="submit" name="button">NEW</button>
     </form>
 
 {% endblock content %}

@@ -7,6 +7,8 @@ from integration.algorithms.preview import *
 
 from random import uniform
 
+# import pdb; pdb.set_trace()
+
 # Create your views here.
 def index(request):
 	datasetform = DatasetForm()
@@ -62,6 +64,7 @@ def dataset_config(request):
 				request.session['dataset'] = random_generation(form.cleaned_data['nbPoints'],
 															   form.cleaned_data['nbClass'],)
 			elif(name == 'uniformGroup'):
+				raise ValueError()
 				request.session['dataset'] = group_generation(form.cleaned_data['nbClass'],
 															  form.cleaned_data['nbPointPerClass'],)
 			elif(name == 'percentGroup'):
@@ -125,11 +128,31 @@ def algorithm_config(request):
 	if(request.method == 'POST'):
 		form = _get_algo_form(request.session.get('algo'), request.POST)
 		if(form.is_valid()):
-			return redirect('exe_algo')
+			# Execution
+			_execute(form, request.session.get('dataset'), request.session.get('algo'))
+
+			return redirect('exe_algo', 1)
 	else:
 		form = _get_algo_form(request.session.get('algo'))
 
 	return render(request, 'integration/algorithm_configuration.html', {'form': form})
 
-def execute_algo(request):
-	return render(request, 'integration/algorithm_execution.html')
+def _execute(form, dataset, algo):
+	if(algo == 'kmeans'):
+		neighbors, nneighbors, cl = kmeans(form.cleaned_data['newPoint'],
+									   dataset,
+									   k=form.cleaned_data['k'])
+		draw(form.cleaned_data['newPoint'], dataset, neighbors, nneighbors, cl)
+	else:
+		pass
+
+
+def execute_algo(request, id):
+	if(request.method == 'POST'):
+
+		if(request.POST.get('next') is not None):
+			id = int(id) + 1
+		else:
+			id = int(id) - 1
+
+	return render(request, 'integration/algorithm_execution.html', {'id': id})

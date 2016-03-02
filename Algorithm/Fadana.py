@@ -18,13 +18,14 @@
 
 import sys
 import math
+import pylab
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
+from random import randrange
 from Pytiaa.DataGen.randomGen import *
 from Pytiaa.utils import dist
 
-fig = plt.figure()
 
 
 def fadana(new: tuple, points: list, k: int=10):
@@ -42,7 +43,7 @@ def fadana(new: tuple, points: list, k: int=10):
     # Class calculation
     classes = classCalcul(points, triplets, analogicalDiff)
 
-    return None if classes == [] else max(classes, key=lambda c: classes.count(c))
+    return None if classes == [] else max(classes, key=lambda c: classes.count(c)), triplets, analogicalDiff
 
 
 # Creation of triplets composed of points
@@ -72,6 +73,8 @@ def analogicalCalcul(new : tuple, points : list, triplets : list):
         adx = 1 - abs(adx1 - adx2)                              # AD = 1 - | (A - B) - (C - D) |
         ady = 1 - abs(ady1 - ady2)
         ad = adx + ady
+        print(t)
+        print(str(t[0]) + " -- " + str(ad))
         # Add to the list
         analogicalDiff.append([t[0], ad])
     return analogicalDiff
@@ -89,13 +92,75 @@ def classCalcul(points : list, triplets : list, analogicalDiff : list):
 
     return classes
 
+def _draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, plt):
+    fig, ax = plt.subplots()
+
+    # Training set
+    ax.scatter(
+        [point[0] for point in points],
+        [point[1] for point in points],
+        c=[point[2] for point in points]
+    )
+    pylab.savefig('img1')
+
+    # Triplets
+    tplt = []
+    for i in range(3):
+        r = randrange(0, len(triplets))
+        tplt.append(triplets[r])
+        triplets.remove(triplets[r])
+    for i, t in enumerate(tplt):
+        ax.clear()
+        ax.scatter(
+            [point[0] for point in points],
+            [point[1] for point in points],
+            c=[point[2] for point in points]
+        )
+        ax.add_patch(plt.Circle((points[t[1]][0], points[t[1]][1]), radius=0.02, color='#FF0000'))
+        ax.add_patch(plt.Circle((points[t[2]][0], points[t[2]][1]), radius=0.02, color='#FF0000'))
+        ax.add_patch(plt.Circle((points[t[3]][0], points[t[3]][1]), radius=0.02, color='#FF0000'))
+        pylab.savefig('img'+str(i+2))
+
+    # Meilleurs triplets
+    # print(anaDiff)
+    print("On trouve les meilleurs triplets en résolvant le calcul de différence analogique")
+
+    print(triplets[anaDiff[0][0]])
+    t = triplets[anaDiff[0][0]]
+    print(t[0])
+    print(t)
+    print(anaDiff[0][1])
+    print("On calcul la difference analogique de chaque composante (valeurs normalisées)")
+    adx1 = points[t[1]][0] - points[t[2]][0]                # A - B
+    ady1 = points[t[1]][1] - points[t[2]][1]
+    print("Ax - Bx = " + str(adx1))
+    print("Ay - By = " + str(ady1))
+    # Analogical difference C and D
+    adx2 = points[t[3]][0] - new[0]                         # C - D
+    ady2 = points[t[3]][1] - new[1]
+    print("Cx - Dx = " + str(adx2))
+    print("Cy - Dy = " + str(ady2))
+    # Real analogical difference
+    adx = 1 - abs(adx1 - adx2)                              # AD = 1 - | (A - B) - (C - D) |
+    print("AD(Ax, Bx) = 1 - | (Ax - Bx) - (Cx - Dx) | = " + str(adx))
+    ady = 1 - abs(ady1 - ady2)
+    print("AD(Ay, By) = 1 - | (Ay - By) - (Cy - Dy) | = " + str(ady))
+    ad = adx + ady
+    print("AD(A, B, C, D) Finale = " + str(ad))
+
+
 def main(argv):
-    points= random_generation(50, 6)
+    # points= random_generation(50, 6)
+    points= random_generation(5, 2)
     # points= group_generation(6, 10,.2)
     # points= percent_generation([0.05,0.25,0.15,0.25,0.1,0.2], 50,.2)
-    classe = fadana([0.5,0.4], points, k=10)
+    new = (.5, .4)
+    classe, triplets, analogicalDiff = fadana(new, points, k=10)
+    _draw(new, points, triplets, analogicalDiff, classe, plt)
 
     print("Class :", classe)
+
+    # plt.show()
 
 if(__name__ == "__main__"):
     sys.exit(main(sys.argv))
