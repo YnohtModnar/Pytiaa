@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Index{% endblock title %}
+
+{% block content %}
+	<h2>Dataset Generation</h2>
+	<form id='dataset_choice_form' action="{% url 'integration.views.index' %}" enctype="multipart/form-data" method="post">
+		{% csrf_token %}
+		{{ datasetform.as_p }}
+	</form>
+	<form id='dataset_generation_form' action="{% url 'integration.views.index' %}" enctype="multipart/form-data" method="post">
+		{% csrf_token %}
+		{{ testform.as_p }}
+		<input type='submit' value='generate' />
+	</form>
+
+	{% if has_preview %}
+		<h3>Preview</h3>
+		<img id='preview' src="{% static 'img/preview.png' %}" width=200 height=150 />
+	{% endif %}
+
+	<form id='algorithm_form' action="{% url 'integration.views.run' %}" enctype="multipart/form-data" method="post">
+		<h2>Algorithm</h2>
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type='submit' value='execute' />
+	</form>
+{% endblock content %}

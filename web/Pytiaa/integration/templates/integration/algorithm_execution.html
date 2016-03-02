@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form action={% url 'exe_algo' %} method="post">
+        {% csrf_token %}
+        <button type="submit" name="previous">Previous</button>
+        <button type="submit" name="next">Next</button>
+    </form>
+
+    <form action={% url 'dataset_selection' %} method="post">
+        {% csrf_token %}
+        <button type="submit" name="button">NEW</button>
+    </form>
+
+{% endblock content %}

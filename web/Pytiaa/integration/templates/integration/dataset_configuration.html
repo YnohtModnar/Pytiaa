@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <form action={% url 'dataset_config' %} method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" name="generate">Generate</button>
+        <button type="submit" name="nextstep">Algorithm selection</button>
+    </form>
+
+    {% if has_preview %}
+        <h3>Preview</h3>
+        <img id='preview' src="{% static 'img/preview.png' %}" width=200 height=150 />
+    {% endif %}
+{% endblock content %}

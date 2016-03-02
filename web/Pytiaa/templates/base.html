@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{% block title %}Index{% endblock title %}</title>
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<header>
+		</header>
+
+		{% block content %}
+		{% endblock content %}
+
+		{# <form action={% url 'dataset_selection' %} method="post">
+			{% csrf_token %}
+			<button type="submit" name="button">NEW</button>
+		</form>#}
+
+		<footer>
+		</footer>
+	</body>
+
+</html>

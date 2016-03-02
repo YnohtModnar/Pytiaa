@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+    <form action={% url 'dataset_selection' %} method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" name="button">Choose</button>
+    </form>
+{% endblock content %}
