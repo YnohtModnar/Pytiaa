@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <figure>
+        <img src="{% static 'img/' %}{{ algo }}/img{{ id }}.png" />
+        <p></p>
+    </figure>
+    <form action={% url 'exe_algo' id %} method="post">
+        {% csrf_token %}
+        <button type="submit" name="previous">Previous</button>
+        <button type="submit" name="next">Next</button>
+    </form>
+
+{% endblock content %}
