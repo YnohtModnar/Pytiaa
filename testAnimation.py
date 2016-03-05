@@ -2,8 +2,8 @@ import time
 import matplotlib.pyplot as plt
 from matplotlib import animation
 from matplotlib.lines import Line2D
-from dataset import group_generation, random_generation
-from kmeans import kmeans
+from Pytiaa.DataGen.randomGen import group_generation, random_generation
+from Pytiaa.Algorithm.Kmeans import kmeans
 
 #
 #	TO TEST
@@ -69,7 +69,7 @@ def update(frameNumber):
 		lines.pop()
 
 anim = animation.FuncAnimation(fig, update, frames=500, interval=1)
-# anim.save('patate', fps=6, extra_args=['-vcodec', 'libvpx'])
-# anim.save('testanim.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
+#anim.save('patate', fps=6, extra_args=['-vcodec', 'libvpx'])
+#anim.save('testanim.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
 print(anim.to_html5_video())
 plt.show()
