@@ -1,4 +1,46 @@
-/*Test fonctionnement*/
 body{
-    background-color: rgb(247, 180, 139);
+    background-color: rgb(225,225,225);
+}
+button{
+  color: white;
+  border-radius: 5px;
+  width: 200px;
+  border: 3px solid #555;
+  margin: 5px;
+  padding: 5px;
+  background: rgba(125, 125, 125, 0.5);
+}
+
+
+.slideshow, #go{
+    overflow: hidden;
+    position: absolute;
+    top : 50px;
+    left : 30px;
+    height: 500px;
+    width: 700px;
+}
+#go{
+  background: rgba(155,155,155,0.5);
+  width: 700px;
+  height: 500px;
+}
+
+.slideshow > div {
+    /*position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;*/
+}
+
+#next{
+  position: absolute;
+  top : 600px;
+  left : 230px;
+}
+#prev{
+  position: absolute;
+  top : 600px;
+  left : 20px;
 }

@@ -1,15 +1,47 @@
 {% extends "base.html" %}
 {% load static %}
+{% load extraTags %}
 
 {% block content %}
+<!--
+    <div class="slideshow" id="0">
+      <div class="0">
+        <img src="http://farm6.static.flickr.com/5224/5658667829_2bb7d42a9c_m.jpg">
+      </div>
+      <div class="1">
+        <img src="http://farm6.static.flickr.com/5230/5638093881_a791e4f819_m.jpg">
+      </div>
+      <div class="2">
+        <img src="http://gillespaquette.ca/images/stack-icon.png">
+      </div>
+    </div>
+
+-->
+      {% for index,name in algo|getDirect %}
+      <div class="slideshow" id="{{index}}">
+        {% with algo|add:"/"|add:name as direc %}
+        {% for i,img in direc|getImages %}
+          <div class="{{i}}">
+            <img src="{% static 'img/' %}{{ algo }}/{{name}}/{{img}}" />
+            <p></p>
+          </div>
+        {% endfor %}
+        {% endwith %}
+      </div>
+    {% endfor %}
+    <button id="go">GO</button>
+    <button id="prev">Previous</button>
+    <button id="next">Next</button>
+<!--
     <figure>
         <img src="{% static 'img/' %}{{ algo }}/img{{ id }}.png" />
         <p></p>
     </figure>
+
     <form action={% url 'exe_algo' id %} method="post">
         {% csrf_token %}
         <button type="submit" name="previous">Previous</button>
         <button type="submit" name="next">Next</button>
     </form>
-
+-->
 {% endblock content %}
