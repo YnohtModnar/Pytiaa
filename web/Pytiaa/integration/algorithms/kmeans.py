@@ -51,23 +51,27 @@ def kmeans_draw(new, points, neighbors, nneighbors, cl):
         [point[1] for point in points],
         c=[point[2] for point in points]
     )
-    pylab.savefig(FOLDER + 'img1', bbox_inches='tight')
+    pylab.savefig(FOLDER +"0/" + '1', bbox_inches='tight')
 
     plt.scatter(new[0], new[1], c="#000000")
-    pylab.savefig(FOLDER + 'img2', bbox_inches='tight')
+    pylab.savefig(FOLDER +"1/"+ '2', bbox_inches='tight')
 
     plt.scatter(new[0], new[1], c=cl)
-    pylab.savefig(FOLDER + 'img5', bbox_inches='tight')
+    pylab.savefig(FOLDER +"4/" '5', bbox_inches='tight')
 
     plt.scatter(new[0], new[1], c="#000000")
+    i=0
     for d in nneighbors:
         plt.plot([new[0], points[d[0]][0]], [new[1], points[d[0]][1]], c="#878787", alpha=.3)
-    pylab.savefig(FOLDER + 'img4', bbox_inches='tight')
+        pylab.savefig(FOLDER+'3/' + str(i), bbox_inches='tight')
+        i+=1
 
     plt.scatter(new[0], new[1], c="#000000")
+    i=0
     for d in neighbors:
         plt.plot([new[0], points[d[0]][0]], [new[1], points[d[0]][1]], c="#878787", alpha=.3)
-    pylab.savefig(FOLDER + 'img3', bbox_inches='tight')
+        pylab.savefig(FOLDER +"2/" +str(i), bbox_inches='tight')
+        i+=1
 
 #
 # def main(argv):

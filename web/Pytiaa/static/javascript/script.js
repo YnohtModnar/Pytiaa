@@ -1,4 +1,3 @@
-$(document).load(function(){
 
   $('.slideshow').hide();
   var id = 0;
@@ -6,6 +5,8 @@ $(document).load(function(){
   var end = false;
   var play = false;
   $("#"+div).show();
+  $("#"+div).children("div").hide();
+  $('#'+div+' > .'+id).show();
   $("#go").click(function(){
     play = true;
     $("#go").hide();
@@ -54,4 +55,3 @@ $(document).load(function(){
     $("#"+div).show();
     check();
   });
-});
