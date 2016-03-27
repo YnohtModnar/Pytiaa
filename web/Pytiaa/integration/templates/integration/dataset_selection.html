@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
+<div id="block_content">
     <form action={% url 'dataset_selection' %} method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" name="button">Choose</button>
     </form>
+</div>
 {% endblock content %}

@@ -2,12 +2,11 @@ import os
 from django import template
 
 register = template.Library()
-path = './web/Pytiaa/static/img/'
+
 @register.filter()
 def getDirect(path):
-    path = './web/Pytiaa/static/img/'+path
+    path = './static/img/'+path
     direc=[]
-
     for i in os.listdir(path):
         if os.path.isdir(os.path.join(path, i)):
             direc.append(i)
@@ -19,7 +18,7 @@ def getDirect(path):
 def getImages(direc):
     img=[]
 
-    path ='./web/Pytiaa/static/img/'+direc
+    path ='./static/img/'+direc
     for i in os.listdir(path):
         if not os.path.isdir(os.path.join(path, i)) and i.split('.')[-1]=="png":
             img.append(int(i.split('.')[0]))

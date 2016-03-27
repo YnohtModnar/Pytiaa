@@ -1,5 +1,12 @@
 body{
-    background-color: rgb(225,225,225);
+  border: 1px solid blue;
+  text-align: center;
+  width: 960px;
+  margin: auto;
+  background-color: rgb(225,225,225);
+}
+#block_content{
+  --text-align: left;
 }
 button{
   color: white;

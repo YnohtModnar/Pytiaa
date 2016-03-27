@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block content %}
+<div id="block_content">
   {{a}}
   {{b}}
   <p>
@@ -18,4 +19,5 @@
       {% csrf_token %}
       <input type='submit' value='new' name="new" />
   </form>
+</div>
 {% endblock content %}

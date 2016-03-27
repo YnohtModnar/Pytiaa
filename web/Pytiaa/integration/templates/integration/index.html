@@ -4,6 +4,7 @@
 {% block title %}Index{% endblock title %}
 
 {% block content %}
+<div id="block_content">
 	<h2>Dataset Generation</h2>
 	<form id='dataset_choice_form' action="{% url 'integration.views.index' %}" enctype="multipart/form-data" method="post">
 		{% csrf_token %}
@@ -26,4 +27,5 @@
 		{{ form.as_p }}
 		<input type='submit' value='execute' />
 	</form>
+</div>
 {% endblock content %}
