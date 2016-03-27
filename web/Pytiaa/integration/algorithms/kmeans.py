@@ -41,8 +41,19 @@ def _compute_class(points, nneighbors):
     cl = [points[d[0]][2] for d in nneighbors]
     return max(cl, key=lambda c: cl.count(c))
 
+def removeFiles(path):
+        for i in os.listdir(path):
+            if os.path.isfile(os.path.join(path,i)) and os.path.join(path,i).split(".")[-1]=="png":
+                os.remove(os.path.join(path, i))
+            elif os.path.isdir(os.path.join(path,i)):
+                removeFiles(os.path.join(path,i))
+
+
 def kmeans_draw(new, points, neighbors, nneighbors, cl):
     FOLDER = os.path.join(settings.BASE_DIR, 'static/img/kmeans/')
+
+    removeFiles(FOLDER)
+
     # Clear the figure
     plt.clf()
 

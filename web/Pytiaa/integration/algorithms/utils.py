@@ -1,7 +1,7 @@
 #----------------------------------
 # 		Utils functions
 # ---------------------------------
-# 
+#
 # => Random color generation
 # => Distance
 # => Normalization
@@ -57,5 +57,3 @@ def _main(argv):
 
 if(__name__ == "__main__"):
 	sys.exit(_main(sys.argv))
-
-
