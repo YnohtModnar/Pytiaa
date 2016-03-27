@@ -1,12 +1,14 @@
+import os
 import sys
 import math
 import pylab
 import matplotlib.pyplot as plt
 
 from random import choice
-from Pytiaa.utils import dist
+from django.conf import settings
+from integration.algorithms.utils import dist
 
-def PaireBased(new: tuple, points: tuple, k: int=1):
+def PairBased(new: tuple, points: tuple, k: int=1):
 	c, points, classe = _nearest_neighbor(new, points)
 	if(classe is None):
 		couples = _couples_creation(c, points)
@@ -73,7 +75,8 @@ def _reset(ax, points, c):
 	)
 	ax.scatter(c[0][0], c[0][1], c=c[0][2])
 
-def draw(new, points, c, couples, classe, plt):
+def pb_draw(new, points, c, couples, classe, plt=plt):
+	FOLDER = os.path.join(settings.BASE_DIR, 'static/img/pairBased/')
 	NB_COUPLES_DISPLAYED = 4
 	fig, ax = plt.subplots()
 
@@ -83,12 +86,12 @@ def draw(new, points, c, couples, classe, plt):
 
 	# IMAGE 2 #
 	ax.scatter(new[0], new[1], c="#000000")
-	pylab.savefig('img2')
+	pylab.savefig(FOLDER  + 'img2')
 
 	# IMAGE 3 #
 	ax.plot([new[0], c[0][0]], [new[1], c[0][1]], c="#878787", alpha=.3)
 	pylab.text(0.5, 1.05, 'Nearest neighbor, dist='+str(round(c[1], 4)), fontsize=12)
-	pylab.savefig('img3')
+	pylab.savefig(FOLDER + 'img3')
 
 	# IMAGE 4 #
 	# Clear and redraw the points, axes, ...
@@ -103,7 +106,7 @@ def draw(new, points, c, couples, classe, plt):
 		ax.plot([c[0][0], c[1][0]], [c[0][1], c[1][1]], c="#878787", alpha=.3)	# Draw the line between the two points
 		midx, midy = (c[0][0] + c[1][0]) / 2, (c[0][1] + c[1][1]) / 2	# Where the text is placed
 		pylab.text(midx, midy, str(round(c[2], 3)))	 # Display the distance between the two points
-	pylab.savefig('img4')
+	pylab.savefig(FOLDER + 'img4')
 
 	# IMAGE 5 #
 	if(classe is None):
@@ -123,7 +126,7 @@ def draw(new, points, c, couples, classe, plt):
 		p3 = ax.add_patch(plt.Circle((y[0], y[1]), radius=0.02, color='#FF0000'))
 		textEquation = pylab.text(.5, 1.05, str(w[-1]) + " : " + str(x[-1]) + " :: " + str(y[-1]) + " : x")
 		# print(str(w[-1]) + " : " + str(x[-1]) + " :: " + str(y[-1]) + " : x")
-		pylab.savefig('img' + str(5 + i))
+		pylab.savefig(FOLDER + 'img' + str(5 + i))
 		# Clear the circles & txt
 		for patch in [p1, p2, p3]:
 			patch.remove()
@@ -140,9 +143,9 @@ def main(argv):
 	]
 	new = (.5, .5)
 
-	classe, c, couples = PaireBased(new ,points)
+	classe, c, couples = PairBased(new ,points)
 	print(classe)
-	draw(new, points, c, couples, classe, plt)
+	pb_draw(new, points, c, couples, classe, plt)
 
 
 	return 0
