@@ -11,7 +11,7 @@ class SelectAlgorithmForm(forms.Form):
 			('kmeans', 'K-Nearset-Neighbors'),
 			('fadana', 'Fadana'),
 			('lazy', 'Lazy Analogical Classification'),
-			('simpleAnalogical', 'Simple Analogical'),
+			('pairBased', 'Pair Based'),
 		)
 		algorithm = forms.ChoiceField(choices=ALGORITHM, label="")
 		# algorithm.widget.attrs['placeholder'] = 'Algorithm'
@@ -41,7 +41,7 @@ class FadanaForm(AlgorithmForm):
 class LazyAnalogicalForm(AlgorithmForm):
 	pass
 
-class SimpleAnalogicalForm(AlgorithmForm):
+class PairBasedForm(AlgorithmForm):
 	pass
 
 ###

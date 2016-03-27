@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 
 from integration.forms import *
 from integration.algorithms.kmeans import *
-from integration.algorithms.SimpleAnalogical import *
+from integration.algorithms.PairBased import *
+# from integration.algorithms.SimpleAnalogical import *
 from integration.algorithms.dataset import *
 from integration.algorithms.preview import *
 
@@ -66,8 +67,8 @@ def _get_algo_form(name, data=None):
 		return FadanaForm(data)
 	elif(name == 'lazy'):
 		return LazyAnalogicalForm(data)
-	elif(name == 'simpleAnalogical'):
-		return SimpleAnalogicalForm(data)
+	elif(name == 'pairBased'):
+		return PairBasedForm(data)
 
 def dataset_selection(request):
 	if(request.method == 'POST'):
@@ -112,9 +113,9 @@ def _execute(form, dataset, algo):
 									   dataset,
 									   k=form.cleaned_data['k'])
 		kmeans_draw(form.cleaned_data['newPoint'], dataset, neighbors, nneighbors, cl)
-	elif(algo == 'simpleAnalogical'):
-		classe, c, couples = SimpleAnalogical(form.cleaned_data['newPoint'], dataset)
-		sa_draw(form.cleaned_data['newPoint'], dataset, c, couples, classe)
+	elif(algo == 'pairBased'):
+		classe, c, couples = PairBased(form.cleaned_data['newPoint'], dataset)
+		pb_draw(form.cleaned_data['newPoint'], dataset, c, couples, classe)
 
 
 def execute_algo(request, id):

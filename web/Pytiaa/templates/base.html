@@ -12,8 +12,10 @@
 			<h1>Pytiaa</h1>
 		</header>
 
-		{% block content %}
-		{% endblock content %}
+		<div class="wrapper">
+			{% block content %}
+			{% endblock content %}
+		</div>
 
 		<form action={% url 'dataset_selection' %} method="post">
 			{% csrf_token %}
