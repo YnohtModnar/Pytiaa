@@ -1,12 +1,15 @@
 
   $('.slideshow').hide();
+  $('.explanation').hide();
   var id = 0;
   var div = 0;
   var end = false;
   var play = false;
   $("#"+div).show();
+  $("#"+div+"_exp").show();
   $("#"+div).children("div").hide();
   $('#'+div+' > .'+id).show();
+
   $("#go").click(function(){
     play = true;
     $("#go").hide();
@@ -23,7 +26,7 @@
   });
 
   function check(){
-    if(div==$("body").children(".slideshow").length-1){
+    if(div==$("#block_content").children(".slideshow").length-1){
       $("#next").hide();
     }else{
       $("#next").show();
@@ -43,7 +46,9 @@
     id = 0;
     $("#go").show();
     $('.slideshow').hide();
+    $('.explanation').hide();
     $("#"+div).show();
+    $("#"+div+"_exp").show();
     check();
   });
   $("#prev").click(function(){
@@ -52,6 +57,21 @@
     id = 0;
     $("#go").show();
     $('.slideshow').hide();
+    $('.explanation').hide();
     $("#"+div).show();
+    $("#"+div+"_exp").show();
     check();
+  });
+
+  $(document).ready(function(){
+    var j = 0;
+    for(var i = 0; i<$("#block_content").children(".explanation").length;i++){
+      jQuery.get('http://localhost:8000/static/img/kmeans/'+i+'/exp.html', ajout).done(function(){
+        j++;
+      });
+
+    }
+    function ajout(data) {
+      $("#"+j+"_exp").html(data);
+    }
   });
