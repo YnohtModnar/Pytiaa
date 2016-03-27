@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+<div id="block_content">
     <form action={% url 'dataset_config' %} method="post">
         {% csrf_token %}
         {{ form.as_p }}
@@ -13,4 +14,5 @@
         <h3>Preview</h3>
         <img id='preview' src="{% static 'img/preview.png' %}" width=200 height=150 />
     {% endif %}
+</div>
 {% endblock content %}
