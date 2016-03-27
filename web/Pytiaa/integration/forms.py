@@ -66,7 +66,7 @@ class RandomGenerationForm(forms.Form):
 class UniformGroupGenerationForm(forms.Form):
 	nbClass = forms.IntegerField(label="", min_value=1)
 	nbClass.widget.attrs['placeholder'] = "Nombre de classes"
-	nbPointPerClass = forms.IntegerField("", min_value=1)
+	nbPointPerClass = forms.IntegerField(label="", min_value=1)
 	nbPointPerClass.widget.attrs['placeholder'] = "Nombre de points par classe"
 	dimension = forms.ChoiceField(label="Dimension", choices=(('2D', '2D'), ('3D', '3D')))
 

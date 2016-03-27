@@ -29,12 +29,12 @@ def dataset_config(request):
 
 	if(request.method == 'POST'):
 		form = _get_dataset_form(request.session.get('typeDataset'), request.POST)
+		a = request.session.get('typeDataset')
 		if(form.is_valid()):
 			if(name == 'random'):
 				request.session['dataset'] = random_generation(form.cleaned_data['nbPoints'],
 															   form.cleaned_data['nbClass'],)
 			elif(name == 'uniformGroup'):
-				raise ValueError()
 				request.session['dataset'] = group_generation(form.cleaned_data['nbClass'],
 															  form.cleaned_data['nbPointPerClass'],)
 			elif(name == 'percentGroup'):
