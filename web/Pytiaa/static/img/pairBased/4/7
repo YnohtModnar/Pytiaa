@@ -1,0 +1,5 @@
+On a maintenant toutes les distances entre les couples.
+On va selectionner les k meilleures.
+Cela donne une liste de couples qu'on va trier.
+La première equation analogique sera la classe du nouveau point (d)
+L'equation analogique ressemble à cela si on considère que des couleurs représentent les classes 'red' : 'blue' :: 'red' : x 

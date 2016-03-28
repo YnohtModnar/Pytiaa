@@ -14,15 +14,11 @@ from random import uniform
 
 # Create your views here.
 def index(request):
-	return redirect('dataset_selection')
+	return render(request, 'integration/index.html')
+	# return redirect('dataset_selection')
 
-def display(request, id):
-	if(request.method == 'POST'):
-		if(request.POST.get('next') is not None):
-			id = int(id) + 1
-		else:
-			id = int(id) - 1
-	return render(request, 'integration/success.html', locals())
+def help_analogical_equation(request):
+	return render(request, 'integration/analogical_equation.html', locals())
 
 def dataset_config(request):
 	has_preview = False
@@ -102,7 +98,7 @@ def algorithm_config(request):
 			# Execution
 			_execute(form, request.session.get('dataset'), request.session.get('algo'))
 
-			return redirect('exe_algo', 1)
+			return redirect('exe_algo')
 	else:
 		form = _get_algo_form(request.session.get('algo'))
 
@@ -125,12 +121,5 @@ def _execute(form, dataset, algo):
 	elif(algo == 'lazy'):
 		pass
 
-def execute_algo(request, id):
-	if(request.method == 'POST'):
-
-		if(request.POST.get('next') is not None):
-			id = int(id) + 1
-		else:
-			id = int(id) - 1
-
-	return render(request, 'integration/algorithm_execution.html', {'id': id, 'algo': request.session.get('algo')})
+def execute_algo(request):
+	return render(request, 'integration/algorithm_execution.html', {'algo': request.session.get('algo')})

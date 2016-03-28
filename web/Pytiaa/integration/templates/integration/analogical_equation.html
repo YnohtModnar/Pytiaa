@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Equation analogique ?{% endblock %}
+
+{% block content %}
+    <h3>Qu'est qu'une équation analogique ?</h3>
+    <p>Tout d'abord une analogie est une ressemblance que l'on peut faire entre deux choses</p>
+    <p>Par exemple : La tour Eiffel est à Paris ce que La Statue de la Liberté est aux Etats-Unis</p>
+    <p>Cela revient à dire : A est à B ce que C est à D, qui s'écrit de façon plus mathématique a : b :: c : d</p>
+
+    <h4>Cas d'équations solubles (x inconnu)</h4>
+    <p>a : a :: a : x   solution : x = a</p>
+    <p>a : a :: b : x   solution : x = b</p>
+    <p>a : b :: a : x   solution : x = b</p>
+
+    <h4>Cas d'équations non-solubles (x inconnu)</h4>
+    <p>a : b :: b : x   aucune solution</p>
+
+    <a href={% url 'index' %}>Retour</a>
+{% endblock content %}

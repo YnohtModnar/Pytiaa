@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{% block title %}Index{% endblock title %}</title>
+		<link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css"/>
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<header>
+			<h1>Pytiaa</h1>
+            <a href={% url 'index' %}>Accueil</a>
+		</header>
+
+		<div class="wrapper">
+			{% block content %}
+			{% endblock content %}
+
+			<form action={% url 'dataset_selection' %} method="post">
+				{% csrf_token %}
+				<button type="submit" name="button">NEW</button>
+			</form>
+		</div>
+
+		<footer>
+		</footer>
+	</body>
+	<script type="text/JavaScript" src="{% static 'javascript/jquery.js' %}"></script>
+	<script type="text/JavaScript" src="{% static 'javascript/script.js' %}"></script>
+</html>
