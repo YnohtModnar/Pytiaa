@@ -1,3 +1,30 @@
 <h3>Création d'un dataset</h3>
 <p>Le générateur de données créer un dataset, composé de points apparetenant à plusieurs classes.
 </p>
+<!--
+please use :
+<span class="instr"></span>
+<span class="params"></span>
+<span class="tab"></span>
+<span class="func"></span>
+-->
+<h4>Générateur aléatoire</h4>
+<div class="code">
+  <span class="instr">def</span> <span class="func">random_generation</span>(
+  <span class="params">n</span>, <span class="params">nbClass</span>, <span class="params">dim=2</span>):
+  <br />
+  <span class="tab"></span>p = []
+  <br />
+  <span class="tab"></span>cl = <span class="func">color_generation</span>(nbClass)
+  <br />
+  <span class="tab"></span><span class="instr">for</span> i <span class="instr">in</span> range(n):
+  <br />
+  <span class="tab"></span><span class="tab"></span>p.<span class="func">append</span>(
+  [<span class="func">uniform</span>(0, 1) <span class="instr">for</span> j <span class="instr">in</span> <span class="func">range</span>(dim)])
+  <br />
+  <span class="tab"></span><span class="tab"></span>p[-1].<span class="func">append</span>(<span class="func">choice</span>(cl))
+  <br />
+  <span class="tab"></span><span class="instr">return</span> p
+
+
+</div>

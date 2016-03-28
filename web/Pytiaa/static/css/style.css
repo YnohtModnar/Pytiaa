@@ -10,7 +10,7 @@ body{
                                       HEADER
 *******************************************************************************************/
 header{
-  background-image: url("http://www.fullhdwpp.com/wp-content/uploads/Code_www.FullHDWpp.com_.jpg");
+  background-image: url("http://localhost:8000/static/css/back.jpeg");
   color: #EEE;
   --background: #AAA;
   height: 150px;
@@ -72,3 +72,17 @@ select
 #go{
   background: rgba(155,155,155,0.5);
 }
+
+/*******************************************************************************************************************
+                                              CODE AREA
+*******************************************************************************************************************/
+.code{
+  color: #DDD;
+  text-align: left;
+  background: #444;
+  padding: 10px;
+}
+.func{color:#4CF;}
+.instr{color:#D617FF;}
+.params{color:#D85;}
+.tab{display:inline-block; width: 25px;}

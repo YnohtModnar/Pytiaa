@@ -2,3 +2,30 @@
 <p>Le programme va calculer le distance entre notre point à classer et les points differents points du dataset.
 Un tableau de distance est créer.
 </p>
+<!--
+please use :
+<span class="instr"></span>
+<span class="params"></span>
+<span class="tab"></span>
+<span class="func"></span>
+-->
+<div class="code"><p>
+  <span class="instr">def</span> _compute_distances(new, points):
+  <br />
+  <span class="tab"></span>dists = []
+  <br />
+  <span class="tab"></span><span class="instr">for</span> i, pt <span class="instr">in</span> enumerate(points):
+  <br />
+  <span class="tab"></span>s = 0
+  </br>
+  <span class="tab"></span><span class="instr">for</span> j, n <span class="instr">in</span> enumerate(pt[:-1]):
+  <br />
+  <span class="tab"></span><span class="tab"></span>d = new[j] - n
+  <br />
+  <span class="tab"></span><span class="tab"></span>s += d**2
+  <br />
+  <span class="tab"></span><span class="tab"></span>dists.append([i, math.sqrt(s)])
+  <br />
+  <span class="tab"></span><span class="instr">return</span> dists
+</p>
+</div>

@@ -66,6 +66,13 @@
     check();
   });
 
+  function explanation(algo,i){
+    jQuery.get('http://localhost:8000/static/img/'+algo+'/'+i+'/exp.html', ajout);
+    function ajout(data) {
+      $("#"+i+"_exp").html(data);
+    }
+  }
+/**
   $(document).ready(function(){
     var j = 0;
     for(var i = 0; i<$("#block_content").children(".explanation").length;i++){
@@ -78,3 +85,4 @@
       $("#"+j+"_exp").html(data);
     }
   });
+**/
