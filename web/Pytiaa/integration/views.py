@@ -116,6 +116,7 @@ def _execute(form, dataset, algo):
 	elif(algo == 'pairBased'):
 		classe, c, couples = PairBased(form.cleaned_data['newPoint'], dataset)
 		pb_draw(form.cleaned_data['newPoint'], dataset, c, couples, classe)
+		# raise ValueError
 
 
 def execute_algo(request, id):

@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from random import choice
 from django.conf import settings
 from integration.algorithms.utils import dist
+from integration.algorithms.constants import *
 
 def PairBased(new: tuple, points: tuple, k: int=1):
 	c, points, classe = _nearest_neighbor(new, points)
@@ -66,71 +67,82 @@ def _compute_class(couples, c):
 	return classe
 
 def _reset(ax, points, c):
-	ax.set_xlim([0, 1])
-	ax.set_ylim([0, 1])
-	ax.scatter(
+	plt.xlim(0, 1)
+	plt.ylim(0, 1)
+	plt.scatter(
 		[point[0] for point in points],
 		[point[1] for point in points],
-		c=[point[2] for point in points]
+		c=[point[2] for point in points],
+		s=POINTS_SIZE,
+		linewidths=0
 	)
-	ax.scatter(c[0][0], c[0][1], c=c[0][2])
+	plt.scatter(c[0][0], c[0][1], c=c[0][2], s=POINTS_SIZE, linewidths=0)
 
 def pb_draw(new, points, c, couples, classe, plt=plt):
 	FOLDER = os.path.join(settings.BASE_DIR, 'static/img/pairBased/')
 	NB_COUPLES_DISPLAYED = 4
-	fig, ax = plt.subplots()
+
+	# removeFiles(FOLDER) # remove previous files
 
 	# IMAGE 1 #
-	_reset(ax, points, c)
+	_reset(plt, points, c)
 	pylab.savefig(FOLDER + '0/' + '0')
 
 	# IMAGE 2 #
-	ax.scatter(new[0], new[1], c="#000000")
+	plt.scatter(new[0], new[1], c="#000000", s=POINTS_SIZE, linewidths=0)
 	pylab.savefig(FOLDER  + '1/' + '0')
 
 	# IMAGE 3 #
-	ax.plot([new[0], c[0][0]], [new[1], c[0][1]], c="#878787", alpha=.3)
+	plt.plot([new[0], c[0][0]], [new[1], c[0][1]], c="#878787", alpha=.3)
 	pylab.text(0.5, 1.05, 'Nearest neighbor, dist='+str(round(c[1], 4)), fontsize=12)
 	pylab.savefig(FOLDER + '2/' + '0')
 
 	# IMAGE 4 #
 	# Clear and redraw the points, axes, ...
-	ax.clear()
-	_reset(ax, points, c)
-	ax.scatter(new[0], new[1], c="#000000")
+	plt.clf()
+	_reset(plt, points, c)
+	plt.scatter(new[0], new[1], c="#000000", s=POINTS_SIZE, linewidths=0)
 	pylab.text(0.5, 1.05, 'Couples creation + distance computation', fontsize=12)
 
 	# Select random couples to display
 	displayedCouples = [choice(couples) for i in range(NB_COUPLES_DISPLAYED)]
 	for c in [choice(couples) for i in range(NB_COUPLES_DISPLAYED)]:
-		ax.plot([c[0][0], c[1][0]], [c[0][1], c[1][1]], c="#878787", alpha=.3)	# Draw the line between the two points
+		plt.plot([c[0][0], c[1][0]], [c[0][1], c[1][1]], c="#878787", alpha=.3)	# Draw the line between the two points
 		midx, midy = (c[0][0] + c[1][0]) / 2, (c[0][1] + c[1][1]) / 2	# Where the text is placed
-		pylab.text(midx, midy, str(round(c[2], 3)))	 # Display the distance between the two points
+		annot = plt.annotate(str(round(c[2], 3)), xy=(midx, midy), xytext=(-15,15),
+            		textcoords='offset points', ha='center', va='bottom',
+            		arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0.5'))
+		# pylab.text(midx, midy, str(round(c[2], 3)))	 # Display the distance between the two points
 	pylab.savefig(FOLDER + '3/' + '0')
+	annot.remove()
 
 	# IMAGE 5 #
 	if(classe is None):
 		print("Can't classify")
 	print("Solving analogical equation, first solved => class given to the new point")
 	# Clear and redraw the points, axes, ...
-	ax.clear()
-	_reset(ax, points, c)
-	ax.scatter(new[0], new[1], c="#000000")
+	plt.clf()
+	_reset(plt, points, c)
+	plt.scatter(new[0], new[1], c="#000000", s=POINTS_SIZE, linewidths=0)
 	# pylab.text(0.5, 1.05, 'Couples creation + distance computation', fontsize=12)
 
 	for i, closest in enumerate(couples):
 		# Circles to highlight the current points of the equation
 		w, x, y = closest[0], closest[1], c[0]
-		p1 = ax.add_patch(plt.Circle((w[0], w[1]), radius=0.02, color='#FF0000'))
-		p2 = ax.add_patch(plt.Circle((x[0], x[1]), radius=0.02, color='#FF0000'))
-		p3 = ax.add_patch(plt.Circle((y[0], y[1]), radius=0.02, color='#FF0000'))
+		annot1 = plt.annotate(s='A', xy=(w[0], w[1]))
+		annot2 = plt.annotate(s='B', xy=(x[0], x[1]))
+		annot3 = plt.annotate(s='C', xy=(y[0], y[1]))
 		textEquation = pylab.text(.5, 1.05, str(w[-1]) + " : " + str(x[-1]) + " :: " + str(y[-1]) + " : x")
-		# print(str(w[-1]) + " : " + str(x[-1]) + " :: " + str(y[-1]) + " : x")
 		pylab.savefig(FOLDER + '4/' + str(i))
 		# Clear the circles & txt
-		for patch in [p1, p2, p3]:
-			patch.remove()
+		for annot in [annot1, annot2, annot3]:
+			annot.remove()
 		textEquation.remove()
+
+	# IMAGE 6 #
+	_reset(plt, points, c)
+	plt.scatter(new[0], new[1], c=classe, s=POINTS_SIZE, linewidths=0)
+	pylab.savefig(FOLDER + '5/0')
 
 def main(argv):
 	points = [
