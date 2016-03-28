@@ -1,0 +1,3 @@
+<h3>Calcul de différence analogique</h3>
+<p>La première étape du calcul de différence analogique et de calculer A - B, avec A,B les deux premiers éléments du triplet</p>
+<p>Si les éléments on plusieurs composantes alors on calcul Ai - Bi, i représentant la ième composante</p>
