@@ -123,7 +123,6 @@ def _draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, p
 
     # IMAGE 3 #
     # computes analogical difference
-    # print(anaDiff)
     print("On trouve les meilleurs triplets en résolvant le calcul de différence analogique")
     print(tripletsDisplayed[0])
     txt = pylab.text(.5, 1.05, 'Find best triplets solving analogical difference')
@@ -136,6 +135,9 @@ def _draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, p
                                        color='#FF0000')) for i in range(3)]
     pylab.savefig('img5')
     txt.remove()
+    # remove patches
+    for p in patchs:
+        p.remove()
 
     # IMAGE 4 #
     annot = []
@@ -154,8 +156,6 @@ def _draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, p
     txt1 = pylab.text(.095, 1.08, "Ax - Bx = " + str(adx1))
     txt2 = pylab.text(.095, 1.02, "Ay - By = " + str(ady1))
     pylab.savefig('img6')
-    # print("Ax - Bx = " + str(adx1))
-    # print("Ay - By = " + str(ady1))
     # Analogical difference C and D
     txt.remove()
     txt1.remove()
@@ -166,25 +166,45 @@ def _draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, p
     ady2 = c[1] - new[1]
     txt1 = pylab.text(.095, 1.08, "Cx - Dx = " + str(adx2))
     txt2 = pylab.text(.095, 1.02, "Cy - Dy = " + str(ady2))
-    # print("Cx - Dx = " + str(adx2))
-    # print("Cy - Dy = " + str(ady2))
     pylab.savefig('img7')
     txt.remove()
     txt1.remove()
     txt2.remove()
 
+    # remove annoations
+    for a in annot:
+        a.remove()
+
     # Real analogical difference
     # pylab.text('AD = 1 - | (a - B) - (C - D) |, on each attribute, then sum everything to get the final analogical difference')
     adx = 1 - abs(adx1 - adx2)                              # AD = 1 - | (A - B) - (C - D) |
-    print("AD(Ax, Bx) = 1 - | (Ax - Bx) - (Cx - Dx) | = " + str(adx))
+    # print("AD(Ax, Bx) = 1 - | (Ax - Bx) - (Cx - Dx) | = " + str(adx))
     ady = 1 - abs(ady1 - ady2)
-    print("AD(Ay, By) = 1 - | (Ay - By) - (Cy - Dy) | = " + str(ady))
+    # print("AD(Ay, By) = 1 - | (Ay - By) - (Cy - Dy) | = " + str(ady))
     ad = adx + ady
-    print("AD(A, B, C, D) Finale = " + str(ad))
-
+    # print("AD(A, B, C, D) Finale = " + str(ad))
     txt = pylab.text(.5, 1.05, "AD(A, B, C, D) Finale = " + str(ad))
     pylab.savefig('img8')
     txt.remove()
+
+    # IMAGE 5 #
+    for i, closest in enumerate(anaDiff):
+        tplt = triplets[closest[0]]
+        # Circles to highlight the current points of the equation
+        w, x, y = points[tplt[1]], points[tplt[2]], points[tplt[3]]
+        annot1 = plt.annotate(s='A', xy=(w[0], w[1]))
+        annot2 = plt.annotate(s='B', xy=(x[0], x[1]))
+        annot3 = plt.annotate(s='C', xy=(y[0], y[1]))
+        textEquation = pylab.text(.5, 1.05, str(w[-1]) + " : " + str(x[-1]) + " :: " + str(y[-1]) + " : x")
+        pylab.savefig('img' + str(i + 9))
+        # Clear the circles & txt
+        for annot in [annot1, annot2, annot3]:
+            annot.remove()
+        textEquation.remove()
+
+    # IMAGE 6 #
+    plt.scatter(new[0], new[1], c=cl)
+    pylab.savefig('img14')
 
 
 def main(argv):
