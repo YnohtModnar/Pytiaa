@@ -6,7 +6,7 @@
 # => Distance
 # => Normalization
 
-
+import os
 import sys
 from random import uniform, choice
 from math import sqrt
@@ -40,6 +40,16 @@ def norm(value: float, mini: float, maxi: float) ->float:
     Set a value to the interval 0-1
     """
     return (value - mini) / (maxi - mini)
+
+def removeFiles(path):
+	"""
+	Clean .png images from a previous algo run
+	"""
+	for i in os.listdir(path):
+		if os.path.isfile(os.path.join(path,i)) and os.path.join(path,i).split(".")[-1]=="png":
+			os.remove(os.path.join(path, i))
+		elif os.path.isdir(os.path.join(path,i)):
+			removeFiles(os.path.join(path,i))
 
 
 def _main(argv):

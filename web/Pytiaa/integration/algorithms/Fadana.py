@@ -16,15 +16,18 @@
         Else relative imports won't work1
 """
 
+import os
 import sys
 import math
 import pylab
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-from random import randrange
-from Pytiaa.DataGen.randomGen import *
-from Pytiaa.utils import dist
+from random import randrange, choice
+# from Pytiaa.DataGen.randomGen import *
+from django.conf import settings
+from integration.algorithms.utils import dist
+from integration.algorithms.constants import *
 
 
 def fadana(new: tuple, points: list, k: int=10):
@@ -91,7 +94,8 @@ def classCalcul(points : list, triplets : list, analogicalDiff : list):
 
     return classes
 
-def _draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, plt):
+def f_draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, plt=plt):
+    FOLDER = os.path.join(settings.BASE_DIR, 'static/img/fadana/')
     NB_TRIPLET_DISPLAYED = 4
     plt.xlim(0, 1)
     plt.ylim(0, 1)
@@ -102,10 +106,12 @@ def _draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, p
     plt.scatter(
         [point[0] for point in points],
         [point[1] for point in points],
-        c=[point[2] for point in points]
+        c=[point[2] for point in points],
+        s=POINTS_SIZE,
+        linewidths=0
     )
-    plt.scatter(new[0], new[1], c="#000000")
-    pylab.savefig('img1')
+    plt.scatter(new[0], new[1], c="#000000", s=POINTS_SIZE, linewidths=0)
+    pylab.savefig(FOLDER + '0/0')
 
     # IMAGE 2 #
     # Triplets
@@ -115,7 +121,7 @@ def _draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, p
     for i, t in enumerate(tripletsDisplayed):
         patchs = [fig.gca().add_artist(plt.Circle((points[t[i+1]][0], points[t[i+1]][1]), radius=0.02, color='#FF0000')) for i in range(3)]
         texts = [pylab.text(points[t[i+1]][0], points[t[i+1]][1], label[i]) for i in range(3)]
-        pylab.savefig('img'+str(i+2))
+        pylab.savefig(FOLDER + '1/' + str(i))
         # Clear circles and texts
         for i in range(3):
             patchs[i].remove()
@@ -133,7 +139,7 @@ def _draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, p
                                        points[tripletsDisplayed[0][i+1]][1]),
                                        radius=0.02,
                                        color='#FF0000')) for i in range(3)]
-    pylab.savefig('img5')
+    pylab.savefig(FOLDER + '2/0')
     txt.remove()
     # remove patches
     for p in patchs:
@@ -155,7 +161,7 @@ def _draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, p
     ady1 = a[1] - b[1]
     txt1 = pylab.text(.095, 1.08, "Ax - Bx = " + str(adx1))
     txt2 = pylab.text(.095, 1.02, "Ay - By = " + str(ady1))
-    pylab.savefig('img6')
+    pylab.savefig(FOLDER + '3/0')
     # Analogical difference C and D
     txt.remove()
     txt1.remove()
@@ -166,7 +172,7 @@ def _draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, p
     ady2 = c[1] - new[1]
     txt1 = pylab.text(.095, 1.08, "Cx - Dx = " + str(adx2))
     txt2 = pylab.text(.095, 1.02, "Cy - Dy = " + str(ady2))
-    pylab.savefig('img7')
+    pylab.savefig(FOLDER + '3/1')
     txt.remove()
     txt1.remove()
     txt2.remove()
@@ -184,7 +190,7 @@ def _draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, p
     ad = adx + ady
     # print("AD(A, B, C, D) Finale = " + str(ad))
     txt = pylab.text(.5, 1.05, "AD(A, B, C, D) Finale = " + str(ad))
-    pylab.savefig('img8')
+    pylab.savefig(FOLDER + '3/2')
     txt.remove()
 
     # IMAGE 5 #
@@ -196,15 +202,15 @@ def _draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, p
         annot2 = plt.annotate(s='B', xy=(x[0], x[1]))
         annot3 = plt.annotate(s='C', xy=(y[0], y[1]))
         textEquation = pylab.text(.5, 1.05, str(w[-1]) + " : " + str(x[-1]) + " :: " + str(y[-1]) + " : x")
-        pylab.savefig('img' + str(i + 9))
+        pylab.savefig(FOLDER + '4/0')
         # Clear the circles & txt
         for annot in [annot1, annot2, annot3]:
             annot.remove()
         textEquation.remove()
 
     # IMAGE 6 #
-    plt.scatter(new[0], new[1], c=cl)
-    pylab.savefig('img14')
+    plt.scatter(new[0], new[1], c=cl, s=POINTS_SIZE, linewidths=0)
+    pylab.savefig(FOLDER + '5/0')
 
 
 def main(argv):
@@ -215,7 +221,7 @@ def main(argv):
     classe = fadana([0.5,0.4], points, k=10)
     new = (.5, .4)
     classe, triplets, analogicalDiff = fadana(new, points, k=10)
-    _draw(new, points, triplets, analogicalDiff, classe, plt)
+    f_draw(new, points, triplets, analogicalDiff, classe, plt)
 
     print("Class :", classe)
 

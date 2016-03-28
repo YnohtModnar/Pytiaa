@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from integration.forms import *
 from integration.algorithms.kmeans import *
 from integration.algorithms.PairBased import *
+from integration.algorithms.Fadana import *
 # from integration.algorithms.SimpleAnalogical import *
 from integration.algorithms.dataset import *
 from integration.algorithms.preview import *
@@ -116,7 +117,13 @@ def _execute(form, dataset, algo):
 	elif(algo == 'pairBased'):
 		classe, c, couples = PairBased(form.cleaned_data['newPoint'], dataset)
 		pb_draw(form.cleaned_data['newPoint'], dataset, c, couples, classe)
-
+	elif(algo == 'fadana'):
+		classe, triplets, analogicalDiff = fadana(form.cleaned_data['newPoint'],
+												  dataset,
+												  k=form.cleaned_data['k'])
+		f_draw(form.cleaned_data['newPoint'], dataset, triplets, analogicalDiff, classe)
+	elif(algo == 'lazy'):
+		pass
 
 def execute_algo(request, id):
 	if(request.method == 'POST'):

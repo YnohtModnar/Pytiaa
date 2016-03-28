@@ -1,11 +1,16 @@
 import os
 import sys
-import matplotlib.pyplot as plt
-from matplotlib import animation
 import math
-from mpl_toolkits.mplot3d import Axes3D
 import pylab
+import matplotlib.pyplot as plt
+
+from matplotlib import animation
+from mpl_toolkits.mplot3d import Axes3D
 from django.conf import settings
+
+from integration.algorithms.utils import removeFiles
+from integration.algorithms.constants import *
+
 
 def kmeans(new: tuple, points: list, k: int=10):
     """
@@ -41,12 +46,7 @@ def _compute_class(points, nneighbors):
     cl = [points[d[0]][2] for d in nneighbors]
     return max(cl, key=lambda c: cl.count(c))
 
-def removeFiles(path):
-        for i in os.listdir(path):
-            if os.path.isfile(os.path.join(path,i)) and os.path.join(path,i).split(".")[-1]=="png":
-                os.remove(os.path.join(path, i))
-            elif os.path.isdir(os.path.join(path,i)):
-                removeFiles(os.path.join(path,i))
+
 
 
 def kmeans_draw(new, points, neighbors, nneighbors, cl):
@@ -56,21 +56,25 @@ def kmeans_draw(new, points, neighbors, nneighbors, cl):
 
     # Clear the figure
     plt.clf()
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
 
     plt.scatter(
         [point[0] for point in points],
         [point[1] for point in points],
-        c=[point[2] for point in points]
+        c=[point[2] for point in points],
+        s=POINTS_SIZE,
+        linewidths=0,
     )
     pylab.savefig(FOLDER +"0/" + '1', bbox_inches='tight')
 
-    plt.scatter(new[0], new[1], c="#000000")
+    plt.scatter(new[0], new[1], c="#000000", s=POINTS_SIZE, linewidths=0)
     pylab.savefig(FOLDER +"1/"+ '2', bbox_inches='tight')
 
-    plt.scatter(new[0], new[1], c=cl)
+    plt.scatter(new[0], new[1], c=cl, s=POINTS_SIZE, linewidths=0)
     pylab.savefig(FOLDER +"4/" '5', bbox_inches='tight')
 
-    plt.scatter(new[0], new[1], c="#000000")
+    plt.scatter(new[0], new[1], c="#000000", s=POINTS_SIZE, linewidths=0)
     i=0
     for d in nneighbors:
         plt.plot([new[0], points[d[0]][0]], [new[1], points[d[0]][1]], c="#878787", alpha=.3)
