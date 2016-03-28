@@ -9,7 +9,18 @@ please use :
 <span class="func"></span>
 -->
 <h4>Générateur aléatoire</h4>
+
 <div class="code">
+    <pre style='color:#000020;background:#f6f8ff;'><span style='color:#200080; font-weight:bold; '>def</span> random_generation<span style='color:#308080; '>(</span> n<span style='color:#308080; '>,</span> nbClass<span style='color:#308080; '>,</span> dim<span style='color:#308080; '>=</span><span style='color:#008c00; '>2</span><span style='color:#308080; '>)</span><span style='color:#308080; '>:</span>
+    p <span style='color:#308080; '>=</span> <span style='color:#308080; '>[</span><span style='color:#308080; '>]</span>
+    cl <span style='color:#308080; '>=</span> color_generation<span style='color:#308080; '>(</span>nbClass<span style='color:#308080; '>)</span>
+    <span style='color:#200080; font-weight:bold; '>for</span> i <span style='color:#200080; font-weight:bold; '>in</span> <span style='color:#400000; '>range</span><span style='color:#308080; '>(</span>n<span style='color:#308080; '>)</span><span style='color:#308080; '>:</span>
+    p<span style='color:#308080; '>.</span>append<span style='color:#308080; '>(</span> <span style='color:#308080; '>[</span>uniform<span style='color:#308080; '>(</span><span style='color:#008c00; '>0</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>1</span><span style='color:#308080; '>)</span> <span style='color:#200080; font-weight:bold; '>for</span> j <span style='color:#200080; font-weight:bold; '>in</span> <span style='color:#400000; '>range</span><span style='color:#308080; '>(</span>dim<span style='color:#308080; '>)</span><span style='color:#308080; '>]</span><span style='color:#308080; '>)</span>
+    p<span style='color:#308080; '>[</span><span style='color:#44aadd; '>-</span><span style='color:#008c00; '>1</span><span style='color:#308080; '>]</span><span style='color:#308080; '>.</span>append<span style='color:#308080; '>(</span>choice<span style='color:#308080; '>(</span>cl<span style='color:#308080; '>)</span><span style='color:#308080; '>)</span>
+    <span style='color:#200080; font-weight:bold; '>return</span> p
+    </pre>
+</div>
+<!-- <div class="code">
   <span class="instr">def</span> <span class="func">random_generation</span>(
   <span class="params">n</span>, <span class="params">nbClass</span>, <span class="params">dim=2</span>):
   <br />
@@ -27,4 +38,4 @@ please use :
   <span class="tab"></span><span class="instr">return</span> p
 
 
-</div>
+</div>-->

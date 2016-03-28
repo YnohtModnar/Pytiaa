@@ -57,13 +57,14 @@ class DatasetForm(forms.Form):
 	# dataset.widget.attrs['onchange'] = 'thTis.form.submit();'
 
 class RandomGenerationForm(forms.Form):
-	nbPoints = forms.IntegerField(label="", min_value=1)
+	nbPoints = forms.IntegerField(label="", min_value=4)
 	nbPoints.widget.attrs['placeholder'] = "Nombre de points"
 	nbClass = forms.IntegerField(label="", min_value=1)
 	nbClass.widget.attrs['placeholder'] = "Nombre de classes"
 	dimension = forms.ChoiceField(label="Dimension", choices=(('2D', '2D'), ('3D', '3D')))
 
 class UniformGroupGenerationForm(forms.Form):
+	#TODO: checks in the clean data that there are at least 4 points on the graph
 	nbClass = forms.IntegerField(label="", min_value=1)
 	nbClass.widget.attrs['placeholder'] = "Nombre de classes"
 	nbPointPerClass = forms.IntegerField(label="", min_value=1)
@@ -73,7 +74,7 @@ class UniformGroupGenerationForm(forms.Form):
 class PercentGroupGenerationForm(forms.Form):
 	percents = forms.CharField(label="")
 	percents.widget.attrs['placeholder'] = "Repartition des point ex: 0.5 0.3 0.2"
-	nbPoints = forms.IntegerField(label="", min_value=1)
+	nbPoints = forms.IntegerField(label="", min_value=4)
 	nbPoints.widget.attrs['placeholder'] = "Nombre de points"
 	dimension = forms.ChoiceField(label="Dimension", choices=(('2D', '2D'), ('3D', '3D')))
 

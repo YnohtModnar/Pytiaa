@@ -77,9 +77,9 @@ select
                                               CODE AREA
 *******************************************************************************************************************/
 .code{
-  color: #DDD;
+  /*color: #DDD;*/
   text-align: left;
-  background: #444;
+  /*background: #444;*/
   padding: 10px;
 }
 .func{color:#4CF;}

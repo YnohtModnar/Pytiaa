@@ -26,7 +26,7 @@ import matplotlib.animation as animation
 from random import randrange, choice
 # from Pytiaa.DataGen.randomGen import *
 from django.conf import settings
-from integration.algorithms.utils import dist
+from integration.algorithms.utils import dist, removeFiles
 from integration.algorithms.constants import *
 
 
@@ -101,6 +101,8 @@ def f_draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, 
     plt.ylim(0, 1)
     fig = plt.gcf()
 
+    removeFiles(FOLDER)
+
     # IMAGE 1 #
     # Training set
     plt.scatter(
@@ -131,7 +133,7 @@ def f_draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, 
     # computes analogical difference
     print("On trouve les meilleurs triplets en résolvant le calcul de différence analogique")
     print(tripletsDisplayed[0])
-    txt = pylab.text(.5, 1.05, 'Find best triplets solving analogical difference')
+    # txt = pylab.text(.5, 1.05, 'Find best triplets solving analogical difference')
     a = points[tripletsDisplayed[0][1]]
     b = points[tripletsDisplayed[0][2]]
     c = points[tripletsDisplayed[0][3]]
@@ -156,7 +158,7 @@ def f_draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, 
             arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0.5',
                             color='red')))
     # print("On calcul la difference analogique de chaque composante (valeurs normalisées)")
-    txt = pylab.text(.6, 1.05, 'A - B, on each attribut')
+    # txt = pylab.text(.6, 1.05, 'A - B, on each attribut')
     adx1 = a[0] - b[0]                # A - B
     ady1 = a[1] - b[1]
     txt1 = pylab.text(.095, 1.08, "Ax - Bx = " + str(adx1))
@@ -167,12 +169,12 @@ def f_draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, 
     txt1.remove()
     txt2.remove()
 
-    txt = pylab.text(.6, 1.05, 'C - D, on each attribut')
+    # txt = pylab.text(.6, 1.05, 'C - D, on each attribut')
     adx2 = c[0] - new[0]                         # C - D
     ady2 = c[1] - new[1]
     txt1 = pylab.text(.095, 1.08, "Cx - Dx = " + str(adx2))
     txt2 = pylab.text(.095, 1.02, "Cy - Dy = " + str(ady2))
-    pylab.savefig(FOLDER + '3/1')
+    pylab.savefig(FOLDER + '4/0')
     txt.remove()
     txt1.remove()
     txt2.remove()
@@ -190,7 +192,7 @@ def f_draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, 
     ad = adx + ady
     # print("AD(A, B, C, D) Finale = " + str(ad))
     txt = pylab.text(.5, 1.05, "AD(A, B, C, D) Finale = " + str(ad))
-    pylab.savefig(FOLDER + '3/2')
+    pylab.savefig(FOLDER + '5/0')
     txt.remove()
 
     # IMAGE 5 #
@@ -202,7 +204,7 @@ def f_draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, 
         annot2 = plt.annotate(s='B', xy=(x[0], x[1]))
         annot3 = plt.annotate(s='C', xy=(y[0], y[1]))
         textEquation = pylab.text(.5, 1.05, str(w[-1]) + " : " + str(x[-1]) + " :: " + str(y[-1]) + " : x")
-        pylab.savefig(FOLDER + '4/0')
+        pylab.savefig(FOLDER + '6/0')
         # Clear the circles & txt
         for annot in [annot1, annot2, annot3]:
             annot.remove()
@@ -210,7 +212,7 @@ def f_draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, 
 
     # IMAGE 6 #
     plt.scatter(new[0], new[1], c=cl, s=POINTS_SIZE, linewidths=0)
-    pylab.savefig(FOLDER + '5/0')
+    pylab.savefig(FOLDER + '7/0')
 
 
 def main(argv):

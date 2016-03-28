@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 from random import choice
 from django.conf import settings
-from integration.algorithms.utils import dist
+from integration.algorithms.utils import dist, removeFiles
 from integration.algorithms.constants import *
 
 def PairBased(new: tuple, points: tuple, k: int=1):
@@ -41,7 +41,7 @@ def _couples_creation(c, points):
 
 	# dist(a, b) ~= dist(c, d)
 	for couple in couples:
-		couple[-1] = abs(couple[-1] - c[1])
+		couple[-1] = abs(couple[-1] - c[1]) # couples[-1] is the distance
 	couples.sort(key=lambda c: c[2])
 	couples.reverse()
 
@@ -82,7 +82,7 @@ def pb_draw(new, points, c, couples, classe, plt=plt):
 	FOLDER = os.path.join(settings.BASE_DIR, 'static/img/pairBased/')
 	NB_COUPLES_DISPLAYED = 4
 
-	# removeFiles(FOLDER) # remove previous files
+	removeFiles(FOLDER) # remove previous files
 
 	# IMAGE 1 #
 	_reset(plt, points, c)
@@ -102,7 +102,6 @@ def pb_draw(new, points, c, couples, classe, plt=plt):
 	plt.clf()
 	_reset(plt, points, c)
 	plt.scatter(new[0], new[1], c="#000000", s=POINTS_SIZE, linewidths=0)
-	pylab.text(0.5, 1.05, 'Couples creation + distance computation', fontsize=12)
 
 	# Select random couples to display
 	displayedCouples = [choice(couples) for i in range(NB_COUPLES_DISPLAYED)]

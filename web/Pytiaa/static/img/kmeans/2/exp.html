@@ -10,7 +10,19 @@ please use :
 <span class="tab"></span>
 <span class="func"></span>
 -->
-<div class="code"><p>
+<div class="code">
+    <pre style='color:#000020;background:#f6f8ff;'><span style='color:#200080; font-weight:bold; '>def</span> _compute_distances<span style='color:#308080; '>(</span>new<span style='color:#308080; '>,</span> points<span style='color:#308080; '>)</span><span style='color:#308080; '>:</span>
+    dists <span style='color:#308080; '>=</span> <span style='color:#308080; '>[</span><span style='color:#308080; '>]</span>
+    <span style='color:#200080; font-weight:bold; '>for</span> i<span style='color:#308080; '>,</span> pt <span style='color:#200080; font-weight:bold; '>in</span> <span style='color:#400000; '>enumerate</span><span style='color:#308080; '>(</span>points<span style='color:#308080; '>)</span><span style='color:#308080; '>:</span>
+    s <span style='color:#308080; '>=</span> <span style='color:#008c00; '>0</span>
+    <span style='color:#200080; font-weight:bold; '>for</span> j<span style='color:#308080; '>,</span> n <span style='color:#200080; font-weight:bold; '>in</span> <span style='color:#400000; '>enumerate</span><span style='color:#308080; '>(</span>pt<span style='color:#308080; '>[</span><span style='color:#308080; '>:</span><span style='color:#44aadd; '>-</span><span style='color:#008c00; '>1</span><span style='color:#308080; '>]</span><span style='color:#308080; '>)</span><span style='color:#308080; '>:</span>
+    d <span style='color:#308080; '>=</span> new<span style='color:#308080; '>[</span>j<span style='color:#308080; '>]</span> <span style='color:#44aadd; '>-</span> n
+    s <span style='color:#44aadd; '>+</span><span style='color:#308080; '>=</span> d<span style='color:#44aadd; '>**</span><span style='color:#008c00; '>2</span>
+    dists<span style='color:#308080; '>.</span>append<span style='color:#308080; '>(</span><span style='color:#308080; '>[</span>i<span style='color:#308080; '>,</span> math<span style='color:#308080; '>.</span>sqrt<span style='color:#308080; '>(</span>s<span style='color:#308080; '>)</span><span style='color:#308080; '>]</span><span style='color:#308080; '>)</span>
+    <span style='color:#200080; font-weight:bold; '>return</span> dists
+    </pre>
+</div>
+<!--<div class="code"><p>
   <span class="instr">def</span> _compute_distances(new, points):
   <br />
   <span class="tab"></span>dists = []
@@ -29,4 +41,4 @@ please use :
   <br />
   <span class="tab"></span><span class="instr">return</span> dists
 </p>
-</div>
+</div>-->
