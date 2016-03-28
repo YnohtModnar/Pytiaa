@@ -1,5 +1,7 @@
 {% extends "base_simulations.html" %}
 
+{% block title %}Configuration Algorithme{% endblock title %}
+
 {% block content %}
 <div id="block_content">
     <form action={% url 'algo_config' %} method="post">

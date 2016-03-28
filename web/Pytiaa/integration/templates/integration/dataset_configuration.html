@@ -1,6 +1,8 @@
 {% extends "base_simulations.html" %}
 {% load static %}
 
+{% block title %}Configuration Dataset{% endblock title %}
+
 {% block content %}
 <div id="block_content">
     <form action={% url 'dataset_config' %} method="post">
