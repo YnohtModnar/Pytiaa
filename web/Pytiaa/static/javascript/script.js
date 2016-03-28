@@ -22,7 +22,7 @@
         $('#'+div+' > .'+id).show();
         id++;
       }
-    },  400);
+    },  600);
   });
 
   function check(){
@@ -36,6 +36,11 @@
     }else{
       $('#prev').show();
     }
+    if($("#"+div).children("div").length>1){
+      $("#go").show();
+    }else{
+      $("#go").hide();
+    }
   }
 
   check();
@@ -44,7 +49,6 @@
     div++;
     play = false;
     id = 0;
-    $("#go").show();
     $('.slideshow').hide();
     $('.explanation').hide();
     $("#"+div).show();
@@ -55,7 +59,6 @@
     div--;
     play = false;
     id = 0;
-    $("#go").show();
     $('.slideshow').hide();
     $('.explanation').hide();
     $("#"+div).show();

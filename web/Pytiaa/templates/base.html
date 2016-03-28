@@ -15,12 +15,12 @@
 		<div class="wrapper">
 			{% block content %}
 			{% endblock content %}
-		</div>
 
-		<form action={% url 'dataset_selection' %} method="post">
-			{% csrf_token %}
-			<button type="submit" name="button">NEW</button>
-		</form>
+			<form action={% url 'dataset_selection' %} method="post">
+				{% csrf_token %}
+				<button type="submit" name="button">NEW</button>
+			</form>
+		</div>
 
 		<footer>
 		</footer>
