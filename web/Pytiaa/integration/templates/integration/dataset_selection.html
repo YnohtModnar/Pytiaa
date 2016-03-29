@@ -4,7 +4,7 @@
 
 {% block content %}
 <div id="block_content">
-    <form action={% url 'dataset_selection' %} method="post">
+    <form action={% url 'dataset_selection' %} enctype=multipart/form-data method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" name="button">Choose</button>

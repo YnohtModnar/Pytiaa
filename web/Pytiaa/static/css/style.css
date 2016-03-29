@@ -57,6 +57,10 @@ select
 {
   width : 40%;
 }
+.explanation:hover{
+    /*cursor: pointer;*/
+}
+
 .slideshow{
     overflow: hidden;
     height: 500px;
@@ -86,3 +90,12 @@ select
 .instr{color:#D617FF;}
 .params{color:#D85;}
 .tab{display:inline-block; width: 25px;}
+
+/******************************************************************************************************************
+                                                        MISC
+*******************************************************************************************************************/
+.errorlist{
+    color: red;
+    font-style: italic;
+    font-size: : '4em';
+}

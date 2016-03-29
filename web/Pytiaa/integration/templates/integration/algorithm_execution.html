@@ -18,7 +18,7 @@
         {% endwith %}
       </div>
       <div class="explanation" id="{{index}}_exp" onclick="explanation('{{algo}}','{{index}}');" >
-        Cliquez ici pour les explications
+          \/ Cliquez ici pour les explications
       </div>
     {% endfor %}
   </div>
@@ -26,5 +26,18 @@
     <button id="prev">Previous</button>
     <button id="go">GO</button>
     <button id="next">Next</button>
+    <button id="savedataset">Sauvegarder le dataset</button>
   </div>
+
+  <script type="text/javascript">
+    document.getElementById('savedataset').addEventListener('click', function(event){
+        var points = {{ dataset|safe }};
+        var res = "";
+        for (var i = 0; i < points.length; i++){
+            // console.log(points[i]);
+            res = res.concat(points[i][0],',',points[i][1],',',points[i][2],';');
+        }
+        alert(res);
+    })
+  </script>
 {% endblock content %}

@@ -5,15 +5,19 @@
 
 {% block content %}
 <div id="block_content">
-    <form action={% url 'dataset_config' %} method="post">
+    {% if typeDataset == "custom" %}
+        <p><i>Le fichier doit être formaté comme suit : [x1],[y1],[color1];[x2][y2][color2];...;</i></p>
+    {% endif %}
+
+    <form action={% url 'dataset_config' %} enctype=multipart/form-data method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" name="generate">Generate</button>
-        <button type="submit" name="nextstep">Algorithm selection</button>
+        <button type="submit" name="generate">Générer aperçu</button>
+        <button type="submit" name="nextstep">Sélection de l'algorithme</button>
     </form>
 
     {% if has_preview %}
-        <h3>Preview</h3>
+        <h3>Aperçu</h3>
         <img id='preview' src="{% static 'img/preview.png' %}" width=200 height=150 />
     {% endif %}
 </div>

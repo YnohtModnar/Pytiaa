@@ -142,7 +142,7 @@ def f_draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, 
                                        radius=0.02,
                                        color='#FF0000')) for i in range(3)]
     pylab.savefig(FOLDER + '2/0')
-    txt.remove()
+    # txt.remove()
     # remove patches
     for p in patchs:
         p.remove()
@@ -165,7 +165,7 @@ def f_draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, 
     txt2 = pylab.text(.095, 1.02, "Ay - By = " + str(ady1))
     pylab.savefig(FOLDER + '3/0')
     # Analogical difference C and D
-    txt.remove()
+    # txt.remove()
     txt1.remove()
     txt2.remove()
 
@@ -175,7 +175,7 @@ def f_draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, 
     txt1 = pylab.text(.095, 1.08, "Cx - Dx = " + str(adx2))
     txt2 = pylab.text(.095, 1.02, "Cy - Dy = " + str(ady2))
     pylab.savefig(FOLDER + '4/0')
-    txt.remove()
+    # txt.remove()
     txt1.remove()
     txt2.remove()
 

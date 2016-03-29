@@ -3,6 +3,18 @@ from django import forms
 
 logger = logging.getLogger(__name__)
 
+class DocumentForm(forms.Form):
+	docfile = forms.FileField(
+		label='Selectionner un fichier csv',
+	)
+
+	def clean_docfile(self):
+		docfile = self.cleaned_data['docfile']
+		file_type = docfile.content_type.split('/')[1]
+		if(file_type != 'csv'):
+			raise forms.ValidationError('Un fichier .csv est attendu')
+
+		return self.cleaned_data['docfile']
 ###
 #	ALGORITHM FORMS
 ###
@@ -52,6 +64,7 @@ class DatasetForm(forms.Form):
 		('random', u'Génération aléatoire'),
 		('uniformGroup', u'Génération par groupe - uniforme'),
 		('percentGroup', u'Génération par groupe - proportions'),
+		('custom', 'Custom Dataset'),
 	)
 	dataset = forms.ChoiceField(choices=DATASET, label="")
 	# dataset.widget.attrs['onchange'] = 'thTis.form.submit();'
@@ -69,14 +82,14 @@ class UniformGroupGenerationForm(forms.Form):
 	nbClass.widget.attrs['placeholder'] = "Nombre de classes"
 	nbPointPerClass = forms.IntegerField(label="", min_value=1)
 	nbPointPerClass.widget.attrs['placeholder'] = "Nombre de points par classe"
-	dimension = forms.ChoiceField(label="Dimension", choices=(('2D', '2D'), ('3D', '3D')))
+	# dimension = forms.ChoiceField(label="Dimension", choices=(('2D', '2D'), ('3D', '3D')))
 
 class PercentGroupGenerationForm(forms.Form):
 	percents = forms.CharField(label="")
 	percents.widget.attrs['placeholder'] = "Repartition des point ex: 0.5 0.3 0.2"
 	nbPoints = forms.IntegerField(label="", min_value=4)
 	nbPoints.widget.attrs['placeholder'] = "Nombre de points"
-	dimension = forms.ChoiceField(label="Dimension", choices=(('2D', '2D'), ('3D', '3D')))
+	# dimension = forms.ChoiceField(label="Dimension", choices=(('2D', '2D'), ('3D', '3D')))
 
 	def clean_percents(self):
 		percents = self.cleaned_data['percents'].split()
