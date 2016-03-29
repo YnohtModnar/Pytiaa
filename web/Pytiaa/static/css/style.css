@@ -5,6 +5,7 @@ body{
 }
 .wrapper{
   margin: auto;
+  min-height: 300px;
 }
 /******************************************************************************************
                                       HEADER
@@ -98,4 +99,12 @@ select
     color: red;
     font-style: italic;
     font-size: : '4em';
+}
+
+footer {
+  background: #CCC;
+}
+footer ul{
+  display: inline-block;
+  text-align: left;
 }
