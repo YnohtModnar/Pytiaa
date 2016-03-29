@@ -98,7 +98,22 @@ select
 .errorlist{
     color: red;
     font-style: italic;
-    font-size: : '4em';
+    /*font-size: : '4em';*/
+}
+.button_link{
+    color: black;
+    background-color: rgb(200, 200, 200);
+    border: solid 1px;
+    padding: 5px;
+    text-decoration: none;
+}
+.button_link:active{
+    background-color: grey;
+}
+#home_link{
+    color: white;
+    border: solide 1px white;
+    text-decoration: none;
 }
 
 footer {
