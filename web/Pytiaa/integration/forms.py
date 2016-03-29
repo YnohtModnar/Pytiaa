@@ -76,11 +76,11 @@ class DatasetForm(forms.Form):
 	# dataset.widget.attrs['onchange'] = 'thTis.form.submit();'
 
 class RandomGenerationForm(forms.Form):
-	nbPoints = forms.IntegerField(label="", min_value=4)
+	nbPoints = forms.IntegerField(label="", min_value=4, max_value=50)
 	nbPoints.widget.attrs['placeholder'] = "Nombre de points"
 	nbClass = forms.IntegerField(label="", min_value=1)
 	nbClass.widget.attrs['placeholder'] = "Nombre de classes"
-	dimension = forms.ChoiceField(label="Dimension", choices=(('2D', '2D'), ('3D', '3D')))
+	# dimension = forms.ChoiceField(label="Dimension", choices=(('2D', '2D'), ('3D', '3D')))
 
 class UniformGroupGenerationForm(forms.Form):
 	#TODO: checks in the clean data that there are at least 4 points on the graph
@@ -89,11 +89,18 @@ class UniformGroupGenerationForm(forms.Form):
 	nbPointPerClass = forms.IntegerField(label="", min_value=1)
 	nbPointPerClass.widget.attrs['placeholder'] = "Nombre de points par classe"
 	# dimension = forms.ChoiceField(label="Dimension", choices=(('2D', '2D'), ('3D', '3D')))
+	def clean(self):
+		if(self.cleaned_data['nbClass'] * self.cleaned_data['nbPointPerClass'] < 4):
+			raise forms.ValidationError('You need at least 4 points on the graph')
+		if(self.cleaned_data['nbClass'] * self.cleaned_data['nbPointPerClass'] > 50):
+			raise forms.ValidationError('Too many points on the graph (100 max)')
+
+		# return int(self.cleaned_data['nbClass']), int(self.cleaned_data['nbPointPerClass'])
 
 class PercentGroupGenerationForm(forms.Form):
 	percents = forms.CharField(label="")
 	percents.widget.attrs['placeholder'] = "Repartition des point ex: 0.5 0.3 0.2"
-	nbPoints = forms.IntegerField(label="", min_value=4)
+	nbPoints = forms.IntegerField(label="", min_value=4, max_value=50)
 	nbPoints.widget.attrs['placeholder'] = "Nombre de points"
 	# dimension = forms.ChoiceField(label="Dimension", choices=(('2D', '2D'), ('3D', '3D')))
 

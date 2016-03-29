@@ -7,6 +7,7 @@ from integration.forms import *
 from integration.algorithms.kmeans import *
 from integration.algorithms.PairBased import *
 from integration.algorithms.Fadana import *
+from integration.algorithms.LazyAnalogical import *
 # from integration.algorithms.SimpleAnalogical import *
 from integration.algorithms.dataset import *
 from integration.algorithms.preview import *
@@ -129,11 +130,25 @@ def _execute(form, dataset, algo):
 												  k=form.cleaned_data['k'])
 		f_draw(form.cleaned_data['newPoint'], dataset, triplets, analogicalDiff, classe)
 	elif(algo == 'lazy'):
-		pass
+		classe, triplets, analogicalDiff = lazy_analogical(form.cleaned_data['newPoint'],
+														   dataset)
+		la_draw(form.cleaned_data['newPoint'], dataset, triplets, analogicalDiff, classe)
 
 def execute_algo(request):
+	# Récupere le nom correct de l'algorithme
+	name = request.session.get('algo')
+	if(name == 'kmean'):
+		name = 'Knn (Kmeans)'
+	elif(name == 'fadana'):
+		name.capitalize()
+	elif(name == 'pairBased'):
+		name = 'Pair Based Algorithm'
+	elif(name == 'lazy'):
+		name = 'Lazy Analogical'
+
 	return render(request, 'integration/algorithm_execution.html', {'algo': request.session.get('algo'),
-																	'dataset': request.session.get('dataset')})
+																	'dataset': request.session.get('dataset'),
+																	'nameAlgo': name})
 def execute_all(request):
 	if(request.method == 'POST'):
 		form = ExecuteAllForm(request.POST)

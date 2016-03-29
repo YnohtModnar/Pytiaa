@@ -6,6 +6,7 @@
 
 {% block content %}
   <div id="block_content">
+      <h1>{{ nameAlgo }}</h1>
       {% for index,name in algo|getDirect %}
       <div class="slideshow" id="{{index}}">
         {% with algo|add:"/"|add:name as direc %}

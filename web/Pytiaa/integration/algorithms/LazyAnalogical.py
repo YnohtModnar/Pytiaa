@@ -15,11 +15,15 @@
         Parent directory of Pytiaa => run 'python -m Pytiaa.Algorithms.LazyAnalogical'
         Else relative imports won't work
 """
-
+import os
 import sys
+import pylab
+import matplotlib.pyplot as plt
 
-from Pytiaa.DataGen.randomGen import *
-from Pytiaa.utils import dist
+# from Pytiaa.DataGen.randomGen import *
+from django.conf import settings
+from integration.algorithms.utils import dist, removeFiles
+from integration.algorithms.constants import *
 
 def lazy_analogical(new: tuple, points: list, r: int=10, k: int=1):
     triplets = tripletCreat(points)
@@ -98,20 +102,25 @@ def classCalcul(points : list, triplets : list, analogicalDiff : list):
 
     return classes
 
-def la_draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, plt):
+def la_draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, plt=plt):
+    FOLDER = os.path.join(settings.BASE_DIR, 'static/img/lazy/')
     NB_TRIPLET_DISPLAYED = 4
     plt.xlim(0, 1)
     plt.ylim(0, 1)
     fig = plt.gcf()
+
+    removeFiles(FOLDER)
 
     # IMAGE 1 #
     # Training set
     plt.scatter(
         [point[0] for point in points],
         [point[1] for point in points],
-        c=[point[2] for point in points]
+        c=[point[2] for point in points],
+        s=POINTS_SIZE,
+        linewidths=0
     )
-    plt.scatter(new[0], new[1], c="#000000")
+    plt.scatter(new[0], new[1], c="#000000", s=POINTS_SIZE, linewidths=0)
     pylab.savefig(FOLDER + '0/0')
 
 def main(argv):
