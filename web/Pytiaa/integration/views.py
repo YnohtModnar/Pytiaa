@@ -98,7 +98,7 @@ def algorithm_selection(request):
 	else:
 		form = SelectAlgorithmForm()
 
-	return render(request, 'integration/algorithm_selection.html', {'form': form})
+	return render(request, 'integration/algorithm_selection.html', {'form': form, 'formAll': ExecuteAllForm()})
 
 
 def algorithm_config(request):
@@ -134,7 +134,23 @@ def _execute(form, dataset, algo):
 def execute_algo(request):
 	return render(request, 'integration/algorithm_execution.html', {'algo': request.session.get('algo'),
 																	'dataset': request.session.get('dataset')})
+def execute_all(request):
+	if(request.method == 'POST'):
+		form = ExecuteAllForm(request.POST)
+		if(form.is_valid()):
+			new = form.cleaned_data['newPoint']
+			dataset = request.session.get('dataset')
+			knnRes = kmeans(new, dataset)
+			pairBasedRes = PairBased(new, dataset)
+			fadanaRes = fadana(new, dataset)
 
+			preview(request.session['dataset'], new=new) # genère l'image a afficher (juste un plan du dataset)
+			results = {'kmeans': knnRes[-1], 'fadana': fadanaRes[0], 'pair based': pairBasedRes[0], 'lazy analogical': "Not implemented yet"}
+
+			return render(request, 'integration/algorithm_comparison.html', {'results': results})
+	else:
+		form = ExecuteAllForm()
+	return render(request, 'integration/algorithm_selection.html', {'form': SelectAlgorithmForm(), 'formAll': form})
 
 def read_file(docfile):
 	"""

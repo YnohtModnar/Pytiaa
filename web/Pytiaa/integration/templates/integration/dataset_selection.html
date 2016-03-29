@@ -1,13 +1,13 @@
 {% extends "base_simulations.html" %}
 
-{% block title %}Selection Type Dataset{% endblock title %}
+{% block title %}Type Dataset{% endblock title %}
 
 {% block content %}
 <div id="block_content">
     <form action={% url 'dataset_selection' %} enctype=multipart/form-data method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" name="button">Choose</button>
+        <button type="submit" name="button">Choisir</button>
     </form>
 </div>
 {% endblock content %}

@@ -7,7 +7,8 @@
     <form action={% url 'algo_config' %} method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" name="button">Execute</button>
+        <button type="submit" name="submit">Exécuter</button>
     </form>
 </div>
+
 {% endblock content %}

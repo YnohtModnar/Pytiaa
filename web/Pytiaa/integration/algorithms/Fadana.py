@@ -211,7 +211,10 @@ def f_draw(new: tuple, points: tuple, triplets: tuple, anaDiff: tuple, cl: str, 
         textEquation.remove()
 
     # IMAGE 6 #
-    plt.scatter(new[0], new[1], c=cl, s=POINTS_SIZE, linewidths=0)
+    if(cl != None):
+        plt.scatter(new[0], new[1], c=cl, s=POINTS_SIZE, linewidths=0)
+    else:
+        pylab.text(.095, 1.05, "Aucune equation analogique n'a pu être résolue")
     pylab.savefig(FOLDER + '7/0')
 
 

@@ -29,13 +29,15 @@ class SelectAlgorithmForm(forms.Form):
 		# algorithm.widget.attrs['placeholder'] = 'Algorithm'
 
 class AlgorithmForm(forms.Form):
-	newPoint = forms.CharField(label="Point a classifier", initial=".5 .5")
+	newPoint = forms.CharField(label="Point à classifier", initial=".5 .5")
 	newPoint.widget.attrs['placeholder'] = "Ex: 0.5 0.5"
 
 	def clean_newPoint(self):
 		coords = self.cleaned_data['newPoint'].split(' ')
 		try:
 			for idx, value in enumerate(coords):
+				if(float(value) < 0 or float(value) > 1):
+					raise forms.ValidationError("The point's coordinates must be between 0 and 1")
 				coords[idx] = float(value)
 		except ValueError as e:
 			raise forms.ValidationError("The new point must be a float")
@@ -55,6 +57,10 @@ class LazyAnalogicalForm(AlgorithmForm):
 
 class PairBasedForm(AlgorithmForm):
 	pass
+
+class ExecuteAllForm(AlgorithmForm):
+	newPoint = forms.CharField(label="Point a classifier", initial=".5 .5")
+	newPoint.widget.attrs['placeholder'] = "Ex: 0.5 0.5"
 
 ###
 #	DATASET FORMS

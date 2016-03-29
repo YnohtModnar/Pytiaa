@@ -1,13 +1,21 @@
 {% extends "base_simulations.html" %}
 
-{% block title %}Selection Type Algorithme{% endblock title %}
+{% block title %}Type Algorithme{% endblock title %}
 
 {% block content %}
 <div id="block_content">
+    <h4>Exécuter sur un algorithme</h4>
     <form action={% url 'algo_select' %} method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" name="button">Choose</button>
+        <button type="submit" name="button">Choisir</button>
+    </form>
+    <hr>
+    <h4>Lancer une comparaison sur tous les algorithmes</h4>
+    <form  action={% url 'exe_all' %} method="post">
+        {% csrf_token %}
+        {{ formAll.as_p }}
+        <button type="submit" name="button">Comparer</button>
     </form>
 </div>
 {% endblock content %}

@@ -1,0 +1,17 @@
+{% extends "base_simulations.html" %}
+{% load static %}
+
+{% block title %}Comparaison Algorithmes{% endblock title %}
+
+{% block content %}
+    <p>Cela peut prendre un moment, patientez...</p>
+
+    <img src="{% static 'img/preview.png' %}" width=200 height=150 />
+
+    <h4>Résultats</h4>
+    {% for name, res in results.items %}
+        <p>
+            {{ name }} : <span style="display: inline-block; width:25px; height:25px; border-radius:12px; background-color:{{ res }};"></span> {{ res }}
+        </p>
+    {% endfor %}
+{% endblock content %}

@@ -11,5 +11,6 @@ urlpatterns = [
 	url(r'^algorithm_selection$', algorithm_selection, name='algo_select'),
 	url(r'^algorithm_configuration$', algorithm_config, name='algo_config'),
 	url(r'^algorithm_execution$', execute_algo, name='exe_algo'),
+	url(r'^algorithm-comparison$', execute_all, name='exe_all'),
 	url(r'^analogical-equation$', help_analogical_equation, name='help_analogical'),
 ]
