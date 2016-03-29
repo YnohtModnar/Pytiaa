@@ -75,8 +75,8 @@ def analogicalCalcul(new : tuple, points : list, triplets : list):
         adx = 1 - abs(adx1 - adx2)                              # AD = 1 - | (A - B) - (C - D) |
         ady = 1 - abs(ady1 - ady2)
         ad = adx + ady
-        print(t)
-        print(str(t[0]) + " -- " + str(ad))
+        #print(t)
+        #print(str(t[0]) + " -- " + str(ad))
         # Add to the list
         analogicalDiff.append([t[0], ad])
     return analogicalDiff
